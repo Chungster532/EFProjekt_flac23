@@ -5,6 +5,10 @@ import uvicorn
 
 app = FastAPI(title='FastApi')
 
+@app.get("/")
+def main():
+    return "This is the flag API"
+
 @app.get('get_post/{postID}/')
 def get_post(postID:str):
     print('requesting post with id: {postID}')
