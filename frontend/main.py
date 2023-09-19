@@ -29,12 +29,14 @@ def generate_html(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in response:
-        html_content += f"<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
-        html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 60%;'><br>"
+        html_content += "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
+        html_content += f"<div style='max-width: 400px; margin: 0 auto;'>"
+        html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>"
         html_content += f"<h2>{post['title']}</h2>"
         html_content += f"<p>{post['description']}</p>"
         html_content += f"<p>User ID: {post['userId']}</p>"
-        html_content += f"</div>"
+        html_content += "</div>"
+        html_content += "</div>"
     
     html_content += "</body></html>"
     
