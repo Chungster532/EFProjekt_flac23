@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from datetime import timedelta
-from backend.api import app as api
+from api import *
 
 with open('frontend/mountain.txt', 'r') as f:
     img = f.read()
@@ -71,10 +71,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
-    #print([render_template('postTemplate.html', **r) for r in response])
-    #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
-    #with open(r'.\templates\out.html', 'w') as f:
-    #    f.write(html)
+
     return render_template("index.html")
 
 
@@ -99,13 +96,14 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
+        imagefile = flask.request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
 
 @app.route("/account/")
 def account():
-    generate_profile(response)    
+    generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
     return render_template("account.html")
 
 if __name__ == "__main__":

@@ -1,9 +1,10 @@
 import uuid, datetime
-import json
+
 from flask import Flask, redirect, url_for, render_template, session, Response
 from flask import Blueprint, request, Request
 import hashlib, jwt
 from database import DB
+import base64
 
 secret = 'abcdefg'
 
@@ -35,7 +36,7 @@ def generateAuthTokenResponse(id:str) -> Response:
 
 @api.route('/login', methods=["POST"])
 def login():
-    usr = json.loads(request.get_data(as_text=True))
+    usr = request.get_json()
     userDB = db.get_user_by_name(usr['username'])
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
@@ -44,7 +45,7 @@ def login():
 
 @api.route('/register', methods=["POST"])
 def register():
-    usr = json.loads(request.get_data(as_text=True))
+    usr = request.get_json()
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], usr['image'])
     return generateAuthTokenResponse(dbUser['id'])
