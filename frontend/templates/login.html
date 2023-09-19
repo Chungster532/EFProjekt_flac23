@@ -1,6 +1,24 @@
-{% extends "base.html" %}
-{% block title %}Login Page{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/> 
+    <title>IAS</title>
+</head>
+<body>
+    <div class="header">
+        <div class="website-title">
+            <a href="/"><img src="static\styles\ias-icon.jpg" width="50"></a>
+        <h3>Instagram, aber schlechter.</h3>
+        </div>
+        <div class="header-right">
+            <a href="/login/">Login/Registration</a>
+            <a href="/createpost/">Bild posten</a>
+            <a href="#">Mein Account</a>
+        </div>
+    </div>
+    {% block content %}
     <div class="container">
         <div class="ignore">you shouldn't see me</div>
         <div class="content">
@@ -8,9 +26,16 @@
 				<form action="#" method="post">
 					<p>Name:</p>
 					<p><input type="text" name="userid" /></p>
+					<p>Passwort:</p>
+					<p><input type="text" name="password" /></p>
 					<p><input type="submit" value="anmelden"/></p>
 				</form>
 			</div>
         </div>
     </div>
 {% endblock %}
+    <div class="footer">
+        Copyright &copy; 2023 flac (EF-Projekt)
+    </div>
+</body>
+</html>
