@@ -71,9 +71,15 @@ def make_post(userId:str, title:str, image:str, description:str):
 def search():
     return {'results':{'posts':db.searchPosts(request.get_json()['q'])}}
 
-@app.route("/feed", methods=['GET'])
+@app.route("/feed/", methods=['GET'])
 def feed(offset:int=0, numPosts:int=10):
-    return {'results':db.get_all_posts(numPosts, offset)}
+    return {'results' : db.get_all_posts(numPosts, offset)}
+
+def getUserByID(id: str):
+    return db.get_user_by_id(id)
+
+def getFeed(offset:int=0, numPosts:int=10):
+    return db.get_all_posts(numPosts, offset)
 
 if __name__ == "__main__":
     ap = Flask(__name__)
