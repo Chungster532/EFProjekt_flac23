@@ -14,13 +14,13 @@ api = Blueprint('api', __name__, url_prefix='/api')
 
 def authRequired(request:Request) -> str:
     print(request.headers)
-    if not 'Authentication' in request.headers and not 'Session-Cookie' in request.cookies:
+    if 'Authentication' in request.headers:
+        token = request.headers['Authentication'].split(' ')[1]
+    elif 'Session-Cookie' in request.cookies:
+        token = request.cookies['Session-Cookie']
+    else:
         raise Exception('No Auth Token')
-    token1 = request.headers['Authentication'].split(' ')[1]
-    token2 = request.cookies['Session-Cookie']
-    if not token1 == token2:
-        raise Exception('Auth tokens dont match')
-    payload = jwt.decode(token1, secret, algorithms=["HS256"])
+    payload = jwt.decode(token, secret, algorithms=["HS256"])
     if not payload:
         raise Exception('invalide token')
     if db.get_user_by_id(payload['id']) is None:
