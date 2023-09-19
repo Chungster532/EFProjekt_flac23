@@ -3,6 +3,7 @@ from backend.api import *
 from datetime import timedelta
 
 def generate_feed(response):
+def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
@@ -45,6 +46,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 def home():
     generate_feed((getFeed(0, 10))) 
 
+
     return render_template("index.html")
 
 
@@ -70,6 +72,7 @@ def logout():
 def createpost():
     if "user" in session:
         imagefile = request.files.get('imagefile', '')
+        imagefile = request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
@@ -81,5 +84,7 @@ def account():
 
 if __name__ == "__main__":
     app.register_blueprint(api)
+    app.run(port=5000, host='0.0.0.0')
+                                     
     app.run(port=5000, host='0.0.0.0')
                                      
