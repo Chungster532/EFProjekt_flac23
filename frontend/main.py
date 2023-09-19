@@ -65,13 +65,14 @@ def createpost():
     #else:
     #    return redirect(("/login/"))
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/account/")
+def account():
+    return render_template("account.html")
 
 @app.route("/createpost/", methods=["POST", "GET"])
 def createpost():
     #if "user" in session:
-    return render_template("create-post.html", usr="userid")
+  return render_template("create-post.html", usr="userid")
 
 response = [
         {
@@ -91,3 +92,5 @@ response = [
             "userId": "6c5c1db5-23d0-4524-b045-aefd622307ab"
         }
     ]
+
+                                     
