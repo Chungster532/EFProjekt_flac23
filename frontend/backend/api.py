@@ -1,5 +1,5 @@
 import uuid, datetime
-
+import json
 from flask import Flask, redirect, url_for, render_template, session, Response
 from flask import Blueprint, request, Request
 import hashlib, jwt
@@ -11,7 +11,7 @@ db = DB()
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-def authRequired(request:Request):
+def authRequired(request:Request) -> str:
     print(request.headers)
     if not 'Authentication' in request.headers and not 'Session-Cookie' in request.cookies:
         raise Exception('No Auth Token')
@@ -24,7 +24,7 @@ def authRequired(request:Request):
         raise Exception('invalide token')
     if db.get_user_by_id(payload['id']) is None:
         raise Exception('invalide id')
-    return True
+    return payload['id']
 
 def generateAuthTokenResponse(id:str) -> Response:
     token = jwt.encode({'id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, secret)
@@ -35,7 +35,7 @@ def generateAuthTokenResponse(id:str) -> Response:
 
 @api.route('/login', methods=["POST"])
 def login():
-    usr = request.get_json()
+    usr = request.get_json(force=True)
     userDB = db.get_user_by_name(usr['username'])
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
@@ -44,7 +44,7 @@ def login():
 
 @api.route('/register', methods=["POST"])
 def register():
-    usr = request.get_json()
+    usr = request.get_json(force=True)
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], usr['image'])
     return generateAuthTokenResponse(dbUser['id'])
@@ -56,11 +56,13 @@ def main():
 
 @api.route('/get_post/<postID>/', methods=["GET"])
 def get_post(postID:str):
+    authRequired(request)
     print(f'requesting post with id: {postID}')
     return {'post': db.get_post_by_id(postID)}
 
 @api.route("/post", methods=["POST"])
 def make_post(userId:str, title:str, image:str, description:str):
+    authRequired(request)
     newPost = db.add_post(str(uuid.uuid4()), userId, title, image, description, str(datetime.datetime.now().timestamp()))
     print(f'creating post with id: {newPost.id}')
     if newPost is None:

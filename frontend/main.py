@@ -1,10 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 from sys import path
-path.append('../')
+path.append('./../')
 from backend.api import *
-
-with open('frontend/mountain.txt', 'r') as f:
-    img = f.read()
 
 def generate_html(response):
     html_content = "<html><head><title>Post List</title></head><body>"
@@ -23,8 +20,6 @@ def generate_html(response):
     
     with open('frontend/templates/postTemplate.html', 'w') as html_file:
         html_file.write(html_content)
-#print(html)
-
 
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
