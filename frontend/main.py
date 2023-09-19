@@ -6,7 +6,7 @@ def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
-        html_content += f"""<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>
+        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
 <h2>{post['title']}</h2>
@@ -24,13 +24,14 @@ def generate_profile(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in response:
-        html_content += f'''<div class="abc">
+        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
-<h2 class="text">{post['title']}</h2>
-<p class="text">{post['description']}</p>
+<h2>{post['title']}</h2>
+<p>{post['description']}</p>
+<p>User ID: {post['userId']}</p>
 </div>
-</div>'''
+</div>"""
     
     html_content += "</body></html>"
     
@@ -43,6 +44,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
+
 
     return render_template("index.html")
 
@@ -62,8 +64,9 @@ def login():
     
 @app.route("/logout/")
 def logout():
-    session.pop("user", None)
-    return redirect(url_for("login"))
+    resp = redirect(url_for("login"))
+    resp.set_cookie('Session-Cookie=""')
+    return resp
 
 @app.route("/createpost/")
 def createpost():
@@ -83,7 +86,13 @@ def account():
     generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
     return render_template("account.html")
 
+@app.route("/registration/")
+def registration():
+    return render_template("registration.html")
+
 if __name__ == "__main__":
     app.register_blueprint(api)
+    app.run(port=5000, host='0.0.0.0')
+                                     
     app.run(port=5000, host='0.0.0.0')
                                      
