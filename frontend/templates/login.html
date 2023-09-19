@@ -9,13 +9,14 @@
 <body>
     <div class="header">
         <div class="website-title">
-            <a href="/"><img src="static\styles\ias-icon.jpg" width="50"></a>
+            <a href="/"><img src="../static\styles\ias-icon.jpg" width="50"></a>
         <h3>Instagram, aber schlechter.</h3>
         </div>
         <div class="header-right">
             <a href="/login/">Login/Registration</a>
+            <a href="/logout/">Logout</a>
             <a href="/createpost/">Bild posten</a>
-            <a href="#">Mein Account</a>
+            <a href="/account/">Mein Account</a>
         </div>
     </div>
     {% block content %}
@@ -23,9 +24,9 @@
         <div class="ignore">you shouldn't see me</div>
         <div class="content">
             <div class="login">
-				<form action="/login" method="post">
+				<form action="/api/login" method="post">
 					<p>Name:</p>
-					<p><input type="text" name="userid" /></p>
+					<p><input type="text" name="username" /></p>
 					<p>Passwort:</p>
 					<p><input type="text" name="password" /></p>
 					<p><input type="submit" value="anmelden"/></p>

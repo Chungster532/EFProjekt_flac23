@@ -1,9 +1,10 @@
 import uuid, datetime
-import json
+
 from flask import Flask, redirect, url_for, render_template, session, Response
 from flask import Blueprint, request, Request
 import hashlib, jwt
 from database import DB
+import base64
 
 secret = 'abcdefg'
 
@@ -11,7 +12,7 @@ db = DB()
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-def authRequired(request:Request):
+def authRequired(request:Request) -> str:
     print(request.headers)
     if not 'Authentication' in request.headers and not 'Session-Cookie' in request.cookies:
         raise Exception('No Auth Token')
@@ -24,7 +25,7 @@ def authRequired(request:Request):
         raise Exception('invalide token')
     if db.get_user_by_id(payload['id']) is None:
         raise Exception('invalide id')
-    return True
+    return payload['id']
 
 def generateAuthTokenResponse(id:str) -> Response:
     token = jwt.encode({'id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, secret)
