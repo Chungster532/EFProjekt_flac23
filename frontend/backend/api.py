@@ -29,14 +29,14 @@ def authRequired(request:Request) -> str:
 
 def generateAuthTokenResponse(id:str) -> Response:
     token = jwt.encode({'id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, secret)
-    resp = redirect('/api/')
+    resp = redirect('/')
     resp.set_cookie('Session-Cookie', token)
     resp.headers['Authorization'] = 'Bearer ' + token
     return resp
 
 @api.route('/login', methods=["POST"])
 def login():
-    usr = request.get_json()
+    usr = request.form
     userDB = db.get_user_by_name(usr['username'])
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
@@ -45,7 +45,7 @@ def login():
 
 @api.route('/register', methods=["POST"])
 def register():
-    usr = request.get_json()
+    usr = request.form
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], usr['image'])
     return generateAuthTokenResponse(dbUser['id'])

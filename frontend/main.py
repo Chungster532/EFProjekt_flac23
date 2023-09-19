@@ -44,38 +44,18 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
-
-
     return render_template("index.html")
 
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    if request.method == "POST":
-        session.permanent = True  # <--- makes the permanent session
-        user = request.form["userid"]
-        session["user"] = user
-        return redirect("/")
-    else:
-        if "user" in session:
-            return redirect("/")
-
-        return render_template("login.html")
+    return render_template("login.html")
     
 @app.route("/logout/")
 def logout():
     resp = redirect(url_for("login"))
     resp.set_cookie('Session-Cookie=""')
     return resp
-
-@app.route("/createpost/")
-def createpost():
-    if "user" in session:
-        imagefile = request.files.get('imagefile', '')
-        imagefile = request.files.get('imagefile', '')
-        return render_template("createpost.html")
-    else:
-        return redirect(("/login/"))
 
 @app.route("/account/")
 def account():
@@ -88,7 +68,4 @@ def registration():
 
 if __name__ == "__main__":
     app.register_blueprint(api)
-    app.run(port=5000, host='0.0.0.0')
-                                     
-    app.run(port=5000, host='0.0.0.0')
-                                     
+    app.run(port=5000, host='0.0.0.0')                                     
