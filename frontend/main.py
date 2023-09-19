@@ -30,6 +30,4 @@ if __name__ == "__main__":
 def createpost():
     #if "user" in session:
     return render_template("create-post.html", usr="userid") 
-    else:
-        return render_template("login.html")
                                      
