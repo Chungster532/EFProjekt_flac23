@@ -1,31 +1,4 @@
-import sqlite3, datetime, uuid
-
-class post:
-    def __init__(self, id:str, userId:str, title:str, image:str, description:str, creationDate:str) -> None:
-        self.id:uuid = uuid.UUID(id)
-        self.userId:uuid = uuid.UUID(userId)
-        self.title:str = title
-        self.image:str = image
-        self.description:str = description
-        self.creationDate:datetime.datetime = datetime.datetime.fromtimestamp(float(creationDate))
-    def __iter__(self) -> iter:
-        print(str(self.id), str(self.userId), self.title, self.image, self.description)
-        print(str(self.creationDate.timestamp()))
-        return iter((str(self.id), str(self.userId), self.title, self.image, self.description, str(self.creationDate.timestamp())))
-    def __dict__(self) -> dict:
-        print({'id': str(self.id), 'userId': str(self.userId), 'title': self.title, 'image':self.image, 'description':self.description, 'timestamp':str(self.creationDate.timestamp())})
-        return {'id': str(self.id), 'userId': str(self.userId), 'title': self.title, 'image':self.image, 'description':self.description, 'timestamp':str(self.creationDate.timestamp())}
-
-class user:
-    id:str
-    username:str
-    description:str
-    image:str
-    def __init__(self, id:str, username:str, description:str, image:str) -> None:
-        self.id = id
-        self.username = username
-        self.description = description
-        self.image = image
+import sqlite3, datetime
 
 def userToDict(id, username, passwordHash, description, image, **args):
     return {'id':id, 'username':username, 'passwordHash': passwordHash, 'description':description, 'image':image}
@@ -73,6 +46,10 @@ class DB:
     def get_all_posts(self, count:int, offset:int) -> list[dict[str, str]]:
         """function which return all posts"""
         return [postToDict(*pst) if pst else None for pst in self.cur.execute("""SELECT * FROM posts LIMIT ? OFFSET ?""", (str(count), str(offset),)).fetchall()]
+    
+    def get_all_user_posts(self, id:str) -> list[dict[str, str]]:
+        """function which return all posts"""
+        return [postToDict(*pst) if pst else None for pst in self.cur.execute("""SELECT * FROM posts WHERE userID=?""", (str(id),)).fetchall()]
     
     def searchUser(self, name:str) -> list[dict[str, str]]:
         """Function to search for a user by name"""

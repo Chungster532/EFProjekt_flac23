@@ -81,6 +81,9 @@ def getUserByID(id: str):
 def getFeed(offset:int=0, numPosts:int=10):
     return db.get_all_posts(numPosts, offset)
 
+def getPostsOfUser(userId:str):
+    return db.get_all_user_posts(userId)
+
 if __name__ == "__main__":
     ap = Flask(__name__)
     ap.register_blueprint(app)
