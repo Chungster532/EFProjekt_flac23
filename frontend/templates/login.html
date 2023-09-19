@@ -1,12 +1,14 @@
-ere is a new html file I created called "login.html".
-
 {% extends "base.html" %}
 {% block title %}Login Page{% endblock %}
-
 {% block content %}
-<form action="#" method="post">
-	<p>Name:</p>
-	<p><input type="text" name="userid" /></p>
-	<p><input type="submit" value="anmelden"/></p>
-</form>
+<div class="container">
+	<div class="ignore">you shouldn't see me</div>
+	<div class="content">
+		<form action="#" method="post">
+		<p>Name:</p>
+		<p><input type="text" name="userid" /></p>
+		<p><input type="submit" value="anmelden"/></p>
+	</form>
+	</div>
+</div>
 {% endblock %}

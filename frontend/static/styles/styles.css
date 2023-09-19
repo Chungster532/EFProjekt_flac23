@@ -4,7 +4,7 @@ body{
     padding: 0px;
     color: whitesmoke;
 }
-#header{
+.header{
     background-color: rgb(10, 10, 10);
     color: whitesmoke;
     display: flex;
@@ -15,14 +15,14 @@ body{
     background-color: rgb(6, 6, 14);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
-#website-title{
+.website-title{
     display: flex;
     align-items: center;
 }
 h3{
     margin-left: 5px;
 }
-#header-right{
+.header-right{
     position:absolute;
     right:0px;
     margin-right: 15px;
@@ -41,13 +41,13 @@ img{
 a:hover{
     color: rgb(43, 43, 255);
 }
-#container{
+.container{
     background-color: rgb(42, 42, 42);
 }
-#ignore{
+.ignore{
     height: 66px;
 }
-#content{
+.content{
     padding-top: 30px;
     align-items: center;
     margin-left: auto;
@@ -56,14 +56,14 @@ a:hover{
     background-color: rgb(6, 6, 14);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
-#footer{
+.footer{
     padding: 15px;
     color: whitesmoke;
     background-color: rgb(10, 10, 10);
     background-color: rgb(6, 6, 14);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
-#container{
+.container{
     background-color: rgb(16, 16, 33);
 }
 .post {
