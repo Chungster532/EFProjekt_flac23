@@ -3,7 +3,6 @@ from backend.api import *
 from datetime import timedelta
 
 def generate_feed(response):
-def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
