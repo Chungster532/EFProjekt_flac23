@@ -46,7 +46,6 @@ def home():
     generate_feed((getFeed(0, 10))) 
     return render_template("index.html")
 
-
 @app.route("/login/", methods=["POST", "GET"])
 def login():
     return render_template("login.html")
@@ -65,6 +64,10 @@ def account():
 @app.route("/registration/")
 def registration():
     return render_template("registration.html")
+
+@app.route("/createpost/")
+def createPost():
+    return render_template("createpost.html")
 
 if __name__ == "__main__":
     app.register_blueprint(api)

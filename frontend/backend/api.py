@@ -46,14 +46,19 @@ def login():
 @api.route('/register', methods=["POST"])
 def register():
     usr = request.form
+    imagefile = request.files['image']
+    if not imagefile:
+        raise Exception('')
+    image_data = imagefile.read()
+    encoded_image = base64.b64encode(image_data).decode('utf-8')
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
-    dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], usr['image'])
+    dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], encoded_image)
     return generateAuthTokenResponse(dbUser['id'])
 
 @api.route('/')
 def main():
     authRequired(request)
-    return {'abc':'def'}
+    return 'This is the flac API'
 
 @api.route('/get_post/<postID>/', methods=["GET"])
 def get_post(postID:str):
@@ -80,13 +85,13 @@ def search():
 
 @api.route("/feed/", methods=['GET'])
 def feed(offset:int=0, numPosts:int=10):
-    return {'results' : db.get_all_posts(numPosts, offset)}
+    return {'results' : db.get_all_posts(numPosts, offset)[::-1]}
 
 def getUserByID(id: str):
     return db.get_user_by_id(id)
 
 def getFeed(offset:int=0, numPosts:int=10):
-    return db.get_all_posts(numPosts, offset)
+    return db.get_all_posts(numPosts, offset)[::-1]
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)

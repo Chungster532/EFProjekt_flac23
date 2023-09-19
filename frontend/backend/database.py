@@ -10,9 +10,9 @@ class DB:
     def __init__(self) -> None:
         self.db = sqlite3.connect("some.db", check_same_thread=False)
         self.cur = self.db.cursor()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS users ( id TEXT PRIMARY KEY NOT NULL UNIQUE, username TEXT NOT NULL UNIQUE, passwordhash TEXT NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL );''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS users ( id TEXT PRIMARY KEY NOT NULL, username TEXT NOT NULL UNIQUE, passwordhash TEXT NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL );''')
         
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS posts ( id TEXT PRIMARY KEY NOT NULL UNIQUE, userId TEXT NOT NULL, title TEXT NOT NULL, image TEXT NOT NULL, description TEXT NOT NULL, creationDate TEXT NOT NULL );''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS posts ( id TEXT PRIMARY KEY NOT NULL, userId TEXT NOT NULL, title TEXT NOT NULL, image TEXT NOT NULL, description TEXT NOT NULL, creationDate TEXT NOT NULL );''')
     def add_post(self, *args) -> dict[str, str]:
         """Function to add post to the db"""
         #try:
