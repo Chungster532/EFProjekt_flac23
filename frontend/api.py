@@ -61,9 +61,15 @@ def get_post(postID:str):
     return {'post': db.get_post_by_id(postID)}
 
 @api.route("/post", methods=["POST"])
-def make_post(userId:str, title:str, image:str, description:str):
-    newPost = db.add_post(str(uuid.uuid4()), userId, title, image, description, str(datetime.datetime.now().timestamp()))
-    print(f'creating post with id: {newPost.id}')
+def make_post():
+    usrID = authRequired(request)
+    imagefile = request.files['imagefile']
+    if not imagefile:
+        raise Exception('')
+    image_data = imagefile.read()
+    encoded_image = base64.b64encode(image_data).decode('utf-8')
+    newPost = db.add_post(str(uuid.uuid4()), usrID, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
+    print(f'creating post with id: {newPost["id"]}')
     if newPost is None:
         raise Exception('Post creation has failed')
     return {'post': newPost}
