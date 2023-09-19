@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from datetime import timedelta
-#from backend.api import app as api
+from backend.api import app as api
 
 with open('frontend/mountain.txt', 'r') as f:
     img = f.read()
@@ -29,7 +29,7 @@ print
 def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
-    for post in response:
+    for post in (response):
         html_content += "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
         html_content += f"<div style='max-width: 400px; margin: 0 auto;'>"
         html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>"
@@ -48,25 +48,18 @@ def generate_profile(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in response:
-        html_content += "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
-        html_content += f"<div style='max-width: 400px; margin: 0 auto;'>"
-        html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>"
-        html_content += f"<h2>{post['title']}</h2>"
-        html_content += f"<p>{post['description']}</p>"
-        html_content += "</div>"
-        html_content += "</div>"
+        html_content += f'''<div class="abc">
+<div style='max-width: 400px; margin: 0 auto;'>
+<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
+<h2 class="text">{post['title']}</h2>
+<p class="text">{post['description']}</p>
+</div>
+</div>'''
     
     html_content += "</body></html>"
     
     with open('frontend/templates/profiles.html', 'w') as html_file:
         html_file.write(html_content)
-
-description = "hij"
-userid = ["6c5c1db5-23d0-4524-b045-aefd622307aa", "a43d4030-12ec-4024-bd95-1a3e53e8debe"]
-title = ["abc", "def"]
-image = ""
-timestamp = ["1695111195.372656", "1695111195.372656"]
-
 
 #print(html)
 
@@ -77,7 +70,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    generate_feed(response) 
+    generate_feed((getFeed(0, 10))) 
     #print([render_template('postTemplate.html', **r) for r in response])
     #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
     #with open(r'.\templates\out.html', 'w') as f:
@@ -116,6 +109,6 @@ def account():
     return render_template("account.html")
 
 if __name__ == "__main__":
-    #app.register_blueprint(api)
+    app.register_blueprint(api)
     app.run()
                                      
