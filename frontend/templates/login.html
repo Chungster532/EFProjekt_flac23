@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/> 
-    <title>IAS</title>
+    <title>Login</title>
 </head>
 <body>
     <div class="header">
@@ -23,7 +23,7 @@
         <div class="ignore">you shouldn't see me</div>
         <div class="content">
             <div class="login">
-				<form action="#" method="post">
+				<form action="/login" method="post">
 					<p>Name:</p>
 					<p><input type="text" name="userid" /></p>
 					<p>Passwort:</p>
