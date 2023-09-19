@@ -81,6 +81,10 @@ def account():
     generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
     return render_template("account.html")
 
+@app.route("/registration/")
+def registration():
+    return render_template("registration.html")
+
 if __name__ == "__main__":
     app.register_blueprint(api)
     app.run(port=5000, host='0.0.0.0')
