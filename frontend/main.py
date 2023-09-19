@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from datetime import timedelta
+from backend.api import app as api
 
 with open('frontend/mountain.txt', 'r') as f:
     img = f.read()
@@ -95,5 +96,6 @@ def account():
     return render_template("account.html")
 
 if __name__ == "__main__":
+    app.register_blueprint(api)
     app.run()
                                      
