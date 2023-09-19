@@ -36,11 +36,14 @@ def createpost():
     #else:
     #    return redirect(("/login/"))
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/account/")
+def account():
+    return render_template("account.html")
 
 @app.route("/createpost/", methods=["POST", "GET"])
 def createpost():
     #if "user" in session:
     return render_template("create-post.html", usr="userid") 
                                      
+if __name__ == "__main__":
+    app.run(debug=True)
