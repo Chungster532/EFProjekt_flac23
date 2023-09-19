@@ -13,15 +13,21 @@ def home():
 @app.route("/login/", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        session.permanent = True
-        user = request.form["userid"]
-        session["user"] = user
-        return redirect(url_for("user"))
+            session.permanent = True  # <--- makes the permanent session
+            user = request.form["userid"]
+            session["user"] = user
+            return redirect("/")
     else:
         if "user" in session:
-            return redirect(url_for("user"))
-
+            return redirect("/")
         return render_template("login.html")
+
+@app.route("/createpost/")
+def createpost():
+    #   if "user" in session:
+    return render_template("createpost.html", usr="userid")
+    #else:
+    #    return redirect(("/login/"))
 
 if __name__ == "__main__":
     app.run(debug=True)
