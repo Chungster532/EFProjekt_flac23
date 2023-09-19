@@ -56,6 +56,19 @@ def logout():
     resp.set_cookie('Session-Cookie=""')
     return resp
 
+@app.route("/createpost/")
+def createpost():
+    if "user" in session:
+        if request.method == 'POST':
+            imagefile = request.files['imagefile']
+            if imagefile:
+                image_data = imagefile.read()
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
+                return render_template("createpost.html", encoded_image=encoded_image)
+        return render_template("createpost.html")
+    else:
+        return redirect("/login/")
+    
 @app.route("/account/")
 def account():
     generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
@@ -70,5 +83,6 @@ def createPost():
     return render_template("createpost.html")
 
 if __name__ == "__main__":
+    app.register_blueprint(api)
     app.register_blueprint(api)
     app.run(port=5000, host='0.0.0.0')                                     
