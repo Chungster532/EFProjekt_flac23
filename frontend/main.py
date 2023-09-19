@@ -1,35 +1,16 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request
+from backend.api import *
 from datetime import timedelta
+<<<<<<< HEAD
 from backend.api import app as api
+=======
+>>>>>>> 06202d1eb7ec64ffd65f736bd3ad251a370b00be
 
-with open('frontend/mountain.txt', 'r') as f:
-    img = f.read()
-
-response = [
-        {
-            "description": "it ain't much but its honest work",
-            "id": "5cc47b38-f651-4f21-91fd-0466349de941",
-            "image": img,
-            "timestamp": "10000000.0",
-            "title": "1. Post hurraaa",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307aa"
-        },
-        {
-            "description": "hij",
-            "id": "a43d4030-12ec-4024-bd95-1a3e53e8debe",
-            "image": img,
-            "timestamp": "1695111195.372656",
-            "title": "abc",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307ab"
-        }
-    ]
-
-print
-
-def generate_feed(response):
+def generate_html(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
+<<<<<<< HEAD
         html_content += "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
         html_content += f"<div style='max-width: 400px; margin: 0 auto;'>"
         html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>"
@@ -38,6 +19,16 @@ def generate_feed(response):
         html_content += f"<p>User ID: {post['userId']}</p>"
         html_content += "</div>"
         html_content += "</div>"
+=======
+        html_content += f"""<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>
+<div style='max-width: 400px; margin: 0 auto;'>
+<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
+<h2>{post['title']}</h2>
+<p>{post['description']}</p>
+<p>User ID: {post['userId']}</p>
+</div>
+</div>"""
+>>>>>>> 06202d1eb7ec64ffd65f736bd3ad251a370b00be
     
     html_content += "</body></html>"
     
@@ -60,10 +51,13 @@ def generate_profile(response):
     
     with open('frontend/templates/profiles.html', 'w') as html_file:
         html_file.write(html_content)
+<<<<<<< HEAD
 
 #print(html)
 
 
+=======
+>>>>>>> 06202d1eb7ec64ffd65f736bd3ad251a370b00be
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 app.permanent_session_lifetime = timedelta(minutes=5)
@@ -71,10 +65,14 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
+<<<<<<< HEAD
     #print([render_template('postTemplate.html', **r) for r in response])
     #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
     #with open(r'.\templates\out.html', 'w') as f:
     #    f.write(html)
+=======
+
+>>>>>>> 06202d1eb7ec64ffd65f736bd3ad251a370b00be
     return render_template("index.html")
 
 
@@ -99,13 +97,14 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
+        imagefile = flask.request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
 
 @app.route("/account/")
 def account():
-    generate_profile(response)    
+    generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
     return render_template("account.html")
 
 if __name__ == "__main__":
