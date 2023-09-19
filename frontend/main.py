@@ -41,8 +41,6 @@ def generate_html(response):
     with open('frontend/templates/postTemplate.html', 'w') as html_file:
         html_file.write(html_content)
 
-generate_html(response)
-
 description = "hij"
 userid = ["6c5c1db5-23d0-4524-b045-aefd622307aa", "a43d4030-12ec-4024-bd95-1a3e53e8debe"]
 title = ["abc", "def"]
@@ -58,7 +56,8 @@ app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
-def home(): 
+def home():
+    generate_html(response) 
     #print([render_template('postTemplate.html', **r) for r in response])
     #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
     #with open(r'.\templates\out.html', 'w') as f:
@@ -87,7 +86,7 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
-        return render_template("login copy.html")
+        return render_template("createpost.html")
     else:
         return redirect(("/login/"))
 
