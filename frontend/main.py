@@ -3,7 +3,7 @@ from datetime import timedelta
 
 
 app = Flask(__name__)
-app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNJ"
+app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 
 @app.route("/")
 def home():
