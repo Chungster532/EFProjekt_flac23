@@ -32,5 +32,8 @@ def createpost():
 if __name__ == "__main__":
     app.run(debug=True)
 
-
+@app.route("/createpost/", methods=["POST", "GET"])
+def createpost():
+    #if "user" in session:
+    return render_template("create-post.html", usr="userid") 
                                      
