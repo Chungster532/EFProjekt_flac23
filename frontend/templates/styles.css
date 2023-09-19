@@ -12,6 +12,15 @@ body{
     position: fixed;
     width: 100%;
 }
+#header-right{
+    position:absolute;
+    right:0px;
+}
+.btn{
+    padding: 5px;
+    border-color: lightblue;
+    border-radius: 10px;;
+}
 #container{
     background-color: rgb(42, 42, 42);
 }
