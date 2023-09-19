@@ -37,7 +37,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 def home(): 
     print([render_template('postTemplate.html', **r) for r in response])
     html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
-    return render_template("index.html", content=html)
+    return render_template("index.html")
 
 
 @app.route("/login/", methods=["POST", "GET"])
@@ -60,37 +60,15 @@ def logout():
 
 @app.route("/createpost/")
 def createpost():
-    #   if "user" in session:
-    return render_template("login copy.html", description=description, userid=userid, title=title)
-    #else:
-    #    return redirect(("/login/"))
+    if "user" in session:
+        return render_template("login copy.html")
+    else:
+        return redirect(("/login/"))
 
 @app.route("/account/")
 def account():
     return render_template("account.html")
 
-@app.route("/createpost/", methods=["POST", "GET"])
-def createpost():
-    #if "user" in session:
-  return render_template("create-post.html", usr="userid")
-
-response = [
-        {
-            "description": "hij",
-            "id": "5cc47b38-f651-4f21-91fd-0466349de941",
-            "image": "def",
-            "timestamp": "10000000.0",
-            "title": "abc",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307aa"
-        },
-        {
-            "description": "hij",
-            "id": "a43d4030-12ec-4024-bd95-1a3e53e8debe",
-            "image": "def",
-            "timestamp": "1695111195.372656",
-            "title": "abc",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307ab"
-        }
-    ]
-
+if __name__ == "__main__":
+    app.run()
                                      
