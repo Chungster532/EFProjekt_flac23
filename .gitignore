@@ -6,3 +6,6 @@ frontend/__pycache__/nicegui.cpython-310.pyc
 frontend/icon/str.txt
 some.db
 backend/__pycache__/database.cpython-310.pyc
+frontend/main.py
+frontend/backend/__pycache__/api.cpython-310.pyc
+frontend/__pycache__/database.cpython-310.pyc

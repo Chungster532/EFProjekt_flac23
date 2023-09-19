@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request
 from backend.api import *
 from datetime import timedelta
 
-def generate_html(response):
+def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
@@ -68,7 +68,7 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
-        imagefile = flask.request.files.get('imagefile', '')
+        imagefile = request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
