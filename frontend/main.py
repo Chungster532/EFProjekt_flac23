@@ -2,18 +2,18 @@ from flask import Flask, redirect, url_for, render_template, request
 from backend.api import *
 from datetime import timedelta
 
-def generate_html(response):
+def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in (response):
-        html_content += "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
-        html_content += f"<div style='max-width: 400px; margin: 0 auto;'>"
-        html_content += f"<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>"
-        html_content += f"<h2>{post['title']}</h2>"
-        html_content += f"<p>{post['description']}</p>"
-        html_content += f"<p>User ID: {post['userId']}</p>"
-        html_content += "</div>"
-        html_content += "</div>"
+        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
+<div style='max-width: 400px; margin: 0 auto;'>
+<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
+<h2>{post['title']}</h2>
+<p>{post['description']}</p>
+<p>User ID: {post['userId']}</p>
+</div>
+</div>"""
     
     html_content += "</body></html>"
     
@@ -24,20 +24,19 @@ def generate_profile(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     
     for post in response:
-        html_content += f'''<div class="abc">
+        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
-<h2 class="text">{post['title']}</h2>
-<p class="text">{post['description']}</p>
+<h2>{post['title']}</h2>
+<p>{post['description']}</p>
+<p>User ID: {post['userId']}</p>
 </div>
-</div>'''
+</div>"""
     
     html_content += "</body></html>"
     
     with open('frontend/templates/profiles.html', 'w') as html_file:
         html_file.write(html_content)
-
-
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 app.permanent_session_lifetime = timedelta(minutes=5)
@@ -45,10 +44,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
-    #print([render_template('postTemplate.html', **r) for r in response])
-    #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
-    #with open(r'.\templates\out.html', 'w') as f:
-    #    f.write(html)
+
     return render_template("index.html")
 
 
@@ -73,7 +69,7 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
-        imagefile = flask.request.files.get('imagefile', '')
+        imagefile = request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
@@ -85,5 +81,5 @@ def account():
 
 if __name__ == "__main__":
     app.register_blueprint(api)
-    app.run()
+    app.run(port=5000, host='0.0.0.0')
                                      
