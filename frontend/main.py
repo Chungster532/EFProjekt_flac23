@@ -10,7 +10,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login/", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         session.permanent = True
@@ -25,3 +25,11 @@ def login():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/createpost/", methods=["POST", "GET"])
+def createpost():
+    #if "user" in session:
+    return render_template("create-post.html", usr="userid") 
+    else:
+        return render_template("login.html")
+                                     
