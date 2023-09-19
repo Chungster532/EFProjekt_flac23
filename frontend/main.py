@@ -1,30 +1,10 @@
-from flask import Flask, redirect, url_for, render_template, request, session
-from datetime import timedelta
-from backend.api import app as api
+from flask import Flask, redirect, url_for, render_template, request
+from sys import path
+path.append('../')
+from backend.api import *
 
 with open('frontend/mountain.txt', 'r') as f:
     img = f.read()
-
-response = [
-        {
-            "description": "it ain't much but its honest work",
-            "id": "5cc47b38-f651-4f21-91fd-0466349de941",
-            "image": img,
-            "timestamp": "10000000.0",
-            "title": "1. Post hurraaa",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307aa"
-        },
-        {
-            "description": "hij",
-            "id": "a43d4030-12ec-4024-bd95-1a3e53e8debe",
-            "image": img,
-            "timestamp": "1695111195.372656",
-            "title": "abc",
-            "userId": "6c5c1db5-23d0-4524-b045-aefd622307ab"
-        }
-    ]
-
-print
 
 def generate_html(response):
     html_content = "<html><head><title>Post List</title></head><body>"
@@ -43,55 +23,28 @@ def generate_html(response):
     
     with open('frontend/templates/postTemplate.html', 'w') as html_file:
         html_file.write(html_content)
-
-description = "hij"
-userid = ["6c5c1db5-23d0-4524-b045-aefd622307aa", "a43d4030-12ec-4024-bd95-1a3e53e8debe"]
-title = ["abc", "def"]
-image = ""
-timestamp = ["1695111195.372656", "1695111195.372656"]
-
-
 #print(html)
 
 
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
-app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    generate_html(response) 
-    #print([render_template('postTemplate.html', **r) for r in response])
-    #html = '\n'.join([render_template('postTemplate.html', **r) for r in response])
-    #with open(r'.\templates\out.html', 'w') as f:
-    #    f.write(html)
+    generate_html(getFeed()) 
     return render_template("index.html")
 
-
-@app.route("/login/", methods=["POST", "GET"])
+@app.route("/login/", methods=["GET"])
 def login():
-    if request.method == "POST":
-        session.permanent = True  # <--- makes the permanent session
-        user = request.form["userid"]
-        session["user"] = user
-        return redirect("/")
-    else:
-        if "user" in session:
-            return redirect("/")
-
-        return render_template("login.html")
+    return render_template("login.html")
     
 @app.route("/logout/")
 def logout():
-    session.pop("user", None)
     return redirect(url_for("login"))
 
 @app.route("/createpost/")
 def createpost():
-    if "user" in session:
-        return render_template("createpost.html")
-    else:
-        return redirect(("/login/"))
+    return render_template("createpost.html")
 
 @app.route("/account/")
 def account():
