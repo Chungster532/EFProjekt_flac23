@@ -113,6 +113,14 @@ def changeAccountAttributes():
         userToken = authRequired(request)
     except:
         return redirect('/login/')
+    encoded_image = getUserByID(userToken)['image']
+    if 'imagefile' in request.files:
+        imagefile = request.files['imagefile']
+        if not imagefile:
+            raise Exception('')
+        image_data = imagefile.read()
+        encoded_image = base64.b64encode(image_data).decode('utf-8')
+    changeAccountAttributes(userToken, request.form['description'], encoded_image)
     return redirect('/account/')
 
 def getUserByID(id: str):
