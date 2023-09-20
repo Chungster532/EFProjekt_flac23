@@ -3,7 +3,7 @@ import uuid, datetime
 from flask import Flask, redirect, url_for, render_template, session, Response
 from flask import Blueprint, request, Request
 import hashlib, jwt
-from database import DB
+from backend.database import DB
 import base64
 
 secret = 'abcdefg'
@@ -57,7 +57,10 @@ def register():
 
 @api.route('/')
 def main():
-    authRequired(request)
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
     return 'This is the flac API'
 
 @api.route('/get_post/<postID>/', methods=["GET"])
@@ -67,13 +70,16 @@ def get_post(postID:str):
 
 @api.route("/post", methods=["POST"])
 def make_post():
-    usrID = authRequired(request)
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
     imagefile = request.files['imagefile']
     if not imagefile:
         raise Exception('')
     image_data = imagefile.read()
     encoded_image = base64.b64encode(image_data).decode('utf-8')
-    newPost = db.add_post(str(uuid.uuid4()), usrID, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
+    newPost = db.add_post(str(uuid.uuid4()), userToken, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
     print(f'creating post with id: {newPost["id"]}')
     if newPost is None:
         raise Exception('Post creation has failed')
@@ -87,6 +93,37 @@ def search():
 def feed(offset:int=0, numPosts:int=10):
     return {'results' : db.get_all_posts(numPosts, offset)[::-1]}
 
+@api.route("/changepassword/", methods=["POST"])
+def changePasswordEndpoint():
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    usr = request.form
+    userDB = db.get_user_by_id(userToken)
+    passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
+    if not passwordHash == userDB['passwordHash']:
+        return {403: "Wrong Password"}
+    print("text")
+    changePassword(userToken, hashlib.sha512(usr['newpassword'].encode()).hexdigest())
+    return redirect('/account/')
+
+@api.route('/changeattributes/', methods=["POST"])
+def changeAccountAttributes():
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    encoded_image = getUserByID(userToken)['image']
+    if 'imagefile' in request.files:
+        imagefile = request.files['imagefile']
+        if not imagefile:
+            raise Exception('')
+        image_data = imagefile.read()
+        encoded_image = base64.b64encode(image_data).decode('utf-8')
+    changeAccountAttributes(userToken, request.form['description'], encoded_image)
+    return redirect('/account/')
+
 def getUserByID(id: str):
     return db.get_user_by_id(id)
 
@@ -95,3 +132,23 @@ def getFeed(offset:int=0, numPosts:int=10):
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
+
+def deleteUser(id:str):
+    db.removeUser(id)
+
+def _changeUser(id, username, passwordHash, description, image):
+    db.changeUser(id)
+
+def changePassword(id:str, passwordHash:str) -> dict[str, str]:
+    usr = db.get_user_by_id(id)
+    print(usr['passwordHash'])
+    usr['passwordHash'] = passwordHash
+
+    print(usr['passwordHash'])
+    return db.changeUser(**usr)
+
+def changeAccountAttributes(id:str, description:str, image:str):
+    usr = db.get_user_by_id(id)
+    usr['description'] = description
+    usr['image'] = image
+    db.changeUser(**usr)

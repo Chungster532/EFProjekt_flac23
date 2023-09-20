@@ -10,20 +10,20 @@ class DB:
     def __init__(self) -> None:
         self.db = sqlite3.connect("some.db", check_same_thread=False)
         self.cur = self.db.cursor()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS users ( id TEXT PRIMARY KEY NOT NULL UNIQUE, username TEXT NOT NULL UNIQUE, passwordhash TEXT NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL );''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS users ( id TEXT PRIMARY KEY NOT NULL, username TEXT NOT NULL UNIQUE, passwordhash TEXT NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL );''')
         
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS posts ( id TEXT PRIMARY KEY NOT NULL UNIQUE, userId TEXT NOT NULL, title TEXT NOT NULL, image TEXT NOT NULL, description TEXT NOT NULL, creationDate TEXT NOT NULL );''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS posts ( id TEXT PRIMARY KEY NOT NULL, userId TEXT NOT NULL, title TEXT NOT NULL, image TEXT NOT NULL, description TEXT NOT NULL, creationDate TEXT NOT NULL );''')
     def add_post(self, *args) -> dict[str, str]:
         """Function to add post to the db"""
         #try:
         self.cur.execute("INSERT INTO posts VALUES(?,?,?,?,?,?)", args)
-        print('\n'.join(list(self.db.iterdump())))
+        #print('\n'.join(list(self.db.iterdump())))
         self.db.commit()
         return self.get_post_by_id(args[0])
     def add_user(self, *args) -> dict[str, str]:
         """Function to add user to the db"""
         self.cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", args)
-        print('\n'.join(list(self.db.iterdump())))
+        #print('\n'.join(list(self.db.iterdump())))
         self.db.commit()
         return self.get_user_by_name(args[1])
     def get_post_by_id(self, id:str) -> dict[str, str]:
@@ -54,7 +54,15 @@ class DB:
     def searchUser(self, name:str) -> list[dict[str, str]]:
         """Function to search for a user by name"""
         [userToDict(usr) if usr else None for usr in self.cur.execute("""SELECT * FROM posts WHERE username LIKE ?""", ('%'+name+'%',)).fetchall()]
-        return 
+        return
+        
+    def removeUser(self, id:str):
+        self.cur.execute('''DELETE FROM users WHERE id=?''', (id, ))
+        self.db.commit()
+
+    def changeUser(self, id, username, passwordHash, description, image) -> dict[str, str]:
+        self.removeUser(id)
+        return self.add_user(id, username, passwordHash, description, image) 
     
     def searchPosts(self, name:str) -> list[dict[str, str]]:
         """Function to search posts by prompt"""

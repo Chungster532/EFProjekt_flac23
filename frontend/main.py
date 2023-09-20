@@ -6,7 +6,7 @@ def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
     for post in (response):
         html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
-<div style='max-width: 400px; margin: 0 auto;'>
+<div style='max-width: 800px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
 <h2>{post['title']}</h2>
 <p>{post['description']}</p>
@@ -20,21 +20,20 @@ def generate_feed(response):
         html_file.write(html_content)
 
 def generate_profile(response):
+    print(response)
     html_content = "<html><head><title>Post List</title></head><body>"
-    
-    for post in response:
-        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
-<div style='max-width: 400px; margin: 0 auto;'>
+    for post in (response):
+        html_content += f"""<div style='background-color: #000000; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
+<div style='max-width: 800px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
 <h2>{post['title']}</h2>
 <p>{post['description']}</p>
-<p>User ID: {post['userId']}</p>
 </div>
 </div>"""
     
     html_content += "</body></html>"
     
-    with open('frontend/templates/profiles.html', 'w') as html_file:
+    with open('frontend/templates/profile.html', 'w') as html_file:
         html_file.write(html_content)
 
 
@@ -60,9 +59,13 @@ def logout():
     
 @app.route("/account/")
 def account():
-    usrID = authRequired(request)
-    generate_profile(getPostsOfUser(usrID))    
-    return render_template("account.html")
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    generate_profile(getPostsOfUser(usrID))
+    user = getUserByID(usrID)
+    return render_template("account.html", username=user['username'], image=user["image"], description=user["description"])
 
 @app.route("/registration/")
 def registration():
@@ -71,6 +74,10 @@ def registration():
 @app.route("/createpost/")
 def createPost():
     return render_template("createpost.html")
+
+@app.route("/resetpw/")
+def resetpw():
+    return render_template("resetpw.html")
 
 if __name__ == "__main__":
     app.register_blueprint(api)
