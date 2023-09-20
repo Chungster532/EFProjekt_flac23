@@ -130,6 +130,11 @@ def getUserByID(id: str):
 def getFeed(offset:int=0, numPosts:int=10):
     return db.get_all_posts(numPosts, offset)[::-1]
 
+def addUsersToPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
+    for post in posts:
+        post.update({'user':db.get_user_by_id(post['userId'])})
+    return posts
+
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
 
