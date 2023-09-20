@@ -54,7 +54,14 @@ class DB:
     def searchUser(self, name:str) -> list[dict[str, str]]:
         """Function to search for a user by name"""
         [userToDict(usr) if usr else None for usr in self.cur.execute("""SELECT * FROM posts WHERE username LIKE ?""", ('%'+name+'%',)).fetchall()]
-        return 
+        return
+        
+    def removeUser(self, id:str):
+        self.cur.execute('''DELETE FROM users WHERE id=?''', (id, ))
+
+    def changeUser(self, id, username, passwordHash, description, image) -> dict[str, str]:
+        self.removeUser(id)
+        return self.add_user(id, username, passwordHash, description, image) 
     
     def searchPosts(self, name:str) -> list[dict[str, str]]:
         """Function to search posts by prompt"""

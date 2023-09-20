@@ -57,7 +57,10 @@ def register():
 
 @api.route('/')
 def main():
-    authRequired(request)
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
     return 'This is the flac API'
 
 @api.route('/get_post/<postID>/', methods=["GET"])
@@ -67,13 +70,16 @@ def get_post(postID:str):
 
 @api.route("/post", methods=["POST"])
 def make_post():
-    usrID = authRequired(request)
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
     imagefile = request.files['imagefile']
     if not imagefile:
         raise Exception('')
     image_data = imagefile.read()
     encoded_image = base64.b64encode(image_data).decode('utf-8')
-    newPost = db.add_post(str(uuid.uuid4()), usrID, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
+    newPost = db.add_post(str(uuid.uuid4()), userToken, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
     print(f'creating post with id: {newPost["id"]}')
     if newPost is None:
         raise Exception('Post creation has failed')
@@ -87,6 +93,28 @@ def search():
 def feed(offset:int=0, numPosts:int=10):
     return {'results' : db.get_all_posts(numPosts, offset)[::-1]}
 
+@api.route("/changepassword/", methods=["POST"])
+def changePasswordEndpoint():
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    usr = request.form
+    userDB = db.get_user_by_id(userToken)
+    passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
+    if not passwordHash == userDB['passwordHash']:
+        return {403: "Wrong Password"}
+    changePassword(userToken['id'], hashlib.sha512(usr['newPassword'].encode()).hexdigest())
+    return redirect('/account/')
+
+@api.route('/changeattributes/', methods=["POST"])
+def changeAccountAttributes():
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    return redirect('/account/')
+
 def getUserByID(id: str):
     return db.get_user_by_id(id)
 
@@ -95,3 +123,20 @@ def getFeed(offset:int=0, numPosts:int=10):
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
+
+def deleteUser(id:str):
+    db.removeUser(id)
+
+def _changeUser(id, username, passwordHash, description, image):
+    db.changeUser(id)
+
+def changePassword(id:str, passwordHash:str) -> dict[str, str]:
+    usr = db.get_user_by_id(id)
+    usr['passwordHash'] = passwordHash
+    return db.changeUser(*usr)
+
+def changeAccountAttributes(id:str, description:str, image:str):
+    usr = db.get_user_by_id(id)
+    usr['description'] = description
+    usr['image'] = image
+    db.changeUser(*usr)
