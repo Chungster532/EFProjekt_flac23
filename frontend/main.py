@@ -60,8 +60,11 @@ def logout():
     
 @app.route("/account/")
 def account():
-    usrID = authRequired(request)
-    generate_profile(getPostsOfUser(usrID))    
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    generate_profile(getPostsOfUser(userToken['id']))    
     return render_template("account.html")
 
 @app.route("/registration/")
