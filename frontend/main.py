@@ -71,8 +71,6 @@ def logout():
 @app.route("/createpost/")
 def createpost():
     if "user" in session:
-        imagefile = request.files.get('imagefile', '')
-        imagefile = request.files.get('imagefile', '')
         return render_template("createpost.html")
     else:
         return redirect(("/login/"))
