@@ -57,7 +57,6 @@ def logout():
     resp.set_cookie('Session-Cookie=""')
     return resp
     
-    
 @app.route("/account/")
 def account():
     usrID = authRequired(request)

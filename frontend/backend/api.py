@@ -95,3 +95,6 @@ def getFeed(offset:int=0, numPosts:int=10):
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
+
+def getCommentsFromPost(id:str):
+    return db.get_comments_from_post(id)

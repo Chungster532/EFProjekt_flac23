@@ -35,10 +35,12 @@ class DB:
         return self.get_user_by_name(args[1])
 
     def get_comment_by_id(self, id:str) -> dict[str, str]:
+        """returns a comment with the given id"""
         cmt =  self.cur.execute("""SELECT * FROM comments WHERE id=?""", (id,)).fetchone()
         return commentToDict(*cmt) if cmt else None
     
-    def get_comments_from_user(self, id:str) -> dict[str, str]:
+    def get_comments_from_post(self, id:str) -> dict[str, str]:
+        """returns all comments from post"""
         return [postToDict(*cmt) if cmt else None for cmt in self.cur.execute("""SELECT * FROM comments WHERE userID=?""", (str(id),)).fetchall()]
 
     def get_post_by_id(self, id:str) -> dict[str, str]:
