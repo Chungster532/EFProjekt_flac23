@@ -3,7 +3,7 @@ import uuid, datetime
 from flask import Flask, redirect, url_for, render_template, session, Response
 from flask import Blueprint, request, Request
 import hashlib, jwt
-from database import DB
+from backend.database import DB
 import base64
 
 secret = 'abcdefg'
@@ -104,7 +104,8 @@ def changePasswordEndpoint():
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
         return {403: "Wrong Password"}
-    changePassword(userToken['id'], hashlib.sha512(usr['newPassword'].encode()).hexdigest())
+    print("text")
+    changePassword(userToken, hashlib.sha512(usr['newpassword'].encode()).hexdigest())
     return redirect('/account/')
 
 @api.route('/changeattributes/', methods=["POST"])
@@ -140,8 +141,11 @@ def _changeUser(id, username, passwordHash, description, image):
 
 def changePassword(id:str, passwordHash:str) -> dict[str, str]:
     usr = db.get_user_by_id(id)
+    print(usr['passwordHash'])
     usr['passwordHash'] = passwordHash
-    return db.changeUser(*usr)
+
+    print(usr['passwordHash'])
+    return db.changeUser(**usr)
 
 def changeAccountAttributes(id:str, description:str, image:str):
     usr = db.get_user_by_id(id)

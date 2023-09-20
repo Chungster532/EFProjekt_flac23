@@ -4,7 +4,7 @@ def userToDict(id, username, passwordHash, description, image, **args):
     return {'id':id, 'username':username, 'passwordHash': passwordHash, 'description':description, 'image':image}
 
 def postToDict(id, userId, title, image, description, timestamp):
-    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(datetime.datetime.fromtimestamp(timestamp))}
+    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(datetime.datetime.fromtimestamp(float(timestamp)))}
 
 class DB:
     def __init__(self) -> None:
@@ -17,13 +17,13 @@ class DB:
         """Function to add post to the db"""
         #try:
         self.cur.execute("INSERT INTO posts VALUES(?,?,?,?,?,?)", args)
-        print('\n'.join(list(self.db.iterdump())))
+        #print('\n'.join(list(self.db.iterdump())))
         self.db.commit()
         return self.get_post_by_id(args[0])
     def add_user(self, *args) -> dict[str, str]:
         """Function to add user to the db"""
         self.cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", args)
-        print('\n'.join(list(self.db.iterdump())))
+        #print('\n'.join(list(self.db.iterdump())))
         self.db.commit()
         return self.get_user_by_name(args[1])
     def get_post_by_id(self, id:str) -> dict[str, str]:
@@ -58,10 +58,14 @@ class DB:
         
     def removeUser(self, id:str):
         self.cur.execute('''DELETE FROM users WHERE id=?''', (id, ))
+        self.db.commit()
 
     def changeUser(self, id, username, passwordHash, description, image) -> dict[str, str]:
+        print('cu', passwordHash)
         self.removeUser(id)
-        return self.add_user(id, username, passwordHash, description, image) 
+        print(passwordHash)
+        self.add_user(id, username, passwordHash, description, image) 
+        print(self.get_user_by_id(id)['passwordHash'])
     
     def searchPosts(self, name:str) -> list[dict[str, str]]:
         """Function to search posts by prompt"""
