@@ -4,6 +4,12 @@
 body{
     margin: 0;
     padding: 0;
+<<<<<<< HEAD
+<<<<<<< HEAD
+    color: whitesmoke;
+=======
+=======
+>>>>>>> ebb015f35b0e893c9ac1576af6a94675e0a44c54
     font-family: Arial, Helvetica, sans-serif;
 }
 .abc {
@@ -262,4 +268,5 @@ body{
     .header-right.active{
         display: flex;
     }
+>>>>>>> ebb015f35b0e893c9ac1576af6a94675e0a44c54
 }
