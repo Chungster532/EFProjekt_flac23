@@ -4,7 +4,6 @@ from datetime import timedelta
 
 def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
-    
     for post in (response):
         html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
@@ -57,7 +56,8 @@ def logout():
     resp = redirect(url_for("login"))
     resp.set_cookie('Session-Cookie=""')
     return resp
-   
+    
+    
 @app.route("/account/")
 def account():
     usrID = authRequired(request)
@@ -74,4 +74,4 @@ def createPost():
 
 if __name__ == "__main__":
     app.register_blueprint(api)
-    app.run(port=5000, host='0.0.0.0')                                     
+    app.run(port=5000, host='0.0.0.0')    
