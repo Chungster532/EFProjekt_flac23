@@ -55,6 +55,7 @@ def logout():
     resp.set_cookie('Session-Cookie=""')
     return resp
     
+    
 @app.route("/account/")
 def account():
     generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
