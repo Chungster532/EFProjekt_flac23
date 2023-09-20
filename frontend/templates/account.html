@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Mein Account{% endblock %}
 {% block content %}
-{% include 'profiles.html' %}
+<div class="ignore">you shouldn't see me</div>
+<div class="container">
+    <h1>{{username}}</h1>
+    <p><img src='data:image/png;base64,{{image}}' style="width: 20%; height: 20%"/></p>
+    {% include 'profile.html' %}
+</div>
 {% endblock %}

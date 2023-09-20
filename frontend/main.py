@@ -20,21 +20,20 @@ def generate_feed(response):
         html_file.write(html_content)
 
 def generate_profile(response):
+    print(response)
     html_content = "<html><head><title>Post List</title></head><body>"
-    
-    for post in response:
+    for post in (response):
         html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
 <h2>{post['title']}</h2>
 <p>{post['description']}</p>
-<p>User ID: {post['userId']}</p>
 </div>
 </div>"""
     
     html_content += "</body></html>"
     
-    with open('frontend/templates/profiles.html', 'w') as html_file:
+    with open('frontend/templates/profile.html', 'w') as html_file:
         html_file.write(html_content)
 
 
@@ -60,9 +59,13 @@ def logout():
     
 @app.route("/account/")
 def account():
-    usrID = authRequired(request)
-    generate_profile(getPostsOfUser(usrID))    
-    return render_template("account.html")
+    if authRequired != "":
+        usrID = authRequired(request)
+        generate_profile(getPostsOfUser(usrID))
+        user = getUserByID(usrID)
+        return render_template("account.html", username=user['username'], image=user["image"])
+    else:
+        return redirect(url_for("login")) 
 
 @app.route("/registration/")
 def registration():
