@@ -4,7 +4,6 @@ from datetime import timedelta
 
 def generate_feed(response):
     html_content = "<html><head><title>Post List</title></head><body>"
-    
     for post in (response):
         html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
 <div style='max-width: 400px; margin: 0 auto;'>
@@ -44,37 +43,18 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def home():
     generate_feed((getFeed(0, 10))) 
-
-
     return render_template("index.html")
-
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    if request.method == "POST":
-        session.permanent = True  # <--- makes the permanent session
-        user = request.form["userid"]
-        session["user"] = user
-        return redirect("/")
-    else:
-        if "user" in session:
-            return redirect("/")
-
-        return render_template("login.html")
+    return render_template("login.html")
     
 @app.route("/logout/")
 def logout():
     resp = redirect(url_for("login"))
     resp.set_cookie('Session-Cookie=""')
     return resp
-
-@app.route("/createpost/")
-def createpost():
-    if "user" in session:
-        return render_template("createpost.html")
-    else:
-        return redirect(("/login/"))
-
+    
 @app.route("/account/")
 def account():
     generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
@@ -84,9 +64,10 @@ def account():
 def registration():
     return render_template("registration.html")
 
+@app.route("/createpost/")
+def createPost():
+    return render_template("createpost.html")
+
 if __name__ == "__main__":
     app.register_blueprint(api)
-    app.run(port=5000, host='0.0.0.0')
-                                     
-    app.run(port=5000, host='0.0.0.0')
-                                     
+    app.run(port=5000, host='0.0.0.0')    
