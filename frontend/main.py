@@ -62,7 +62,7 @@ def account():
     except:
         return redirect('/login/')
     posts = getPostsOfUser(usrID)
-    return render_template("account.html", posts=posts)
+    return render_template("account.html", users=[getUserByID(usrID)], posts=posts)
 
 @app.route("/registration/")
 def registration():
