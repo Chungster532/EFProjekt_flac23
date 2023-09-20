@@ -43,7 +43,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    return render_template("postsTemplate.html", posts=addUsersToPosts(getFeed()))
+    return render_template("feed.html", posts=addUsersToPosts(getFeed()))
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
@@ -55,16 +55,14 @@ def logout():
     resp.set_cookie('Session-Cookie=""')
     return resp
     
-    
 @app.route("/account/")
 def account():
     try:
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    generate_profile(getPostsOfUser(usrID))
-    user = getUserByID(usrID)
-    return render_template("account.html", username=user['username'], image=user["image"], description=user["description"])
+    posts = getPostsOfUser(usrID)
+    return render_template("account.html", posts=posts)
 
 @app.route("/registration/")
 def registration():
