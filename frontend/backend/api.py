@@ -151,4 +151,4 @@ def changeAccountAttributes(id:str, description:str, image:str):
     usr = db.get_user_by_id(id)
     usr['description'] = description
     usr['image'] = image
-    db.changeUser(*usr)
+    db.changeUser(**usr)
