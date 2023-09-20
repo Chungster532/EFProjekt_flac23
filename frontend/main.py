@@ -23,8 +23,8 @@ def generate_profile(response):
     print(response)
     html_content = "<html><head><title>Post List</title></head><body>"
     for post in (response):
-        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
-<div style='max-width: 400px; margin: 0 auto;'>
+        html_content += f"""<div style='background-color: #000000; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
+<div style='max-width: 800px; margin: 0 auto;'>
 <img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
 <h2>{post['title']}</h2>
 <p>{post['description']}</p>
@@ -59,13 +59,13 @@ def logout():
     
 @app.route("/account/")
 def account():
-    if authRequired != "":
+    try:
         usrID = authRequired(request)
-        generate_profile(getPostsOfUser(usrID))
-        user = getUserByID(usrID)
-        return render_template("account.html", username=user['username'], image=user["image"])
-    else:
-        return redirect(url_for("login")) 
+    except:
+        return redirect('/login/')
+    generate_profile(getPostsOfUser(usrID))
+    user = getUserByID(usrID)
+    return render_template("account.html", username=user['username'], image=user["image"], description=user["description"])
 
 @app.route("/registration/")
 def registration():
