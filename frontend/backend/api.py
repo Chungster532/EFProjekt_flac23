@@ -87,7 +87,7 @@ def make_post():
 
 @api.route("/search", methods=['POST'])
 def search():
-    return {'results':{'posts':db.searchPosts(request.get_json()['q'])}}
+    return {'results':{'posts':db.searchPosts(request.form['q'])}}
 
 @api.route("/feed/", methods=['GET'])
 def feed(offset:int=0, numPosts:int=10):
