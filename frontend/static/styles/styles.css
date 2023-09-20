@@ -115,18 +115,26 @@ body{
     font-weight: bolder;
 }
 
+.user_container_big {
+    margin-top: 40px;
+    margin-left: 20%;
+    width: 60%;
+    background-color: #f0fbeb;
+    padding-top: 2%;
+    border-radius: 20px;
+}
+
 .user_card_big {
     padding-top: 0%;
     margin-top: 0%;
     margin-left: 3%;
     display: flex;
     flex-direction: row;
-    align-items: center;
 }
 
 .user_image_big {
-    width: 7%;
-    height: 7%;
+    width: 18%;
+    height: 18%;
     border-radius: 50%;
     margin-bottom: 3%;
     margin-left: 0%;
@@ -134,9 +142,23 @@ body{
 }
 
 .user_name_big {
-    margin-top: 0%;
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-bottom: 0%;
+    font-size:xx-large;
     font-weight: bolder;
+    padding-top: 0%;
 }
+
+.user_description_big {
+    margin-left: 25%;
+}
+
+.user_attributes {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .main_img {
     border-radius: 20%;

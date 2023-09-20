@@ -2,41 +2,6 @@ from flask import Flask, redirect, url_for, render_template, request
 from backend.api import *
 from datetime import timedelta
 
-def generate_feed(response):
-    html_content = "<html><head><title>Post List</title></head><body>"
-    for post in (response):
-        html_content += f"""<div style='background-color: #06060e; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
-<div style='max-width: 800px; margin: 0 auto;'>
-<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
-<h2>{post['title']}</h2>
-<p>{post['description']}</p>
-<p>User ID: {post['userId']}</p>
-</div>
-</div>"""
-    
-    html_content += "</body></html>"
-    
-    with open('frontend/templates/tempfeed.html', 'w') as html_file:
-        html_file.write(html_content)
-
-def generate_profile(response):
-    print(response)
-    html_content = "<html><head><title>Post List</title></head><body>"
-    for post in (response):
-        html_content += f"""<div style='background-color: #000000; padding: 10px; margin-bottom: 10px; width: 60%; margin-left: auto; margin-right: auto; border-radius: 15px;'>
-<div style='max-width: 800px; margin: 0 auto;'>
-<img src='{post['image']}' alt='Post Image' style='max-width: 100%;'><br>
-<h2>{post['title']}</h2>
-<p>{post['description']}</p>
-</div>
-</div>"""
-    
-    html_content += "</body></html>"
-    
-    with open('frontend/templates/profile.html', 'w') as html_file:
-        html_file.write(html_content)
-
-
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 app.permanent_session_lifetime = timedelta(minutes=5)
@@ -62,7 +27,7 @@ def account():
     except:
         return redirect('/login/')
     posts = getPostsOfUser(usrID)
-    return render_template("account.html", posts=posts)
+    return render_template("account.html", users=[getUserByID(usrID)], posts=posts)
 
 @app.route("/registration/")
 def registration():
