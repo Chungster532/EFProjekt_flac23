@@ -37,6 +37,8 @@ def generate_profile(response):
     
     with open('frontend/templates/profiles.html', 'w') as html_file:
         html_file.write(html_content)
+
+
 app = Flask(__name__)
 app.secret_key = "dYVXfvWUUywT86uvSFzwdM19Nk3RNK"
 app.permanent_session_lifetime = timedelta(minutes=5)
@@ -55,23 +57,11 @@ def logout():
     resp = redirect(url_for("login"))
     resp.set_cookie('Session-Cookie=""')
     return resp
-
-@app.route("/createpost/")
-def createpost():
-    if "user" in session:
-        if request.method == 'POST':
-            imagefile = request.files['imagefile']
-            if imagefile:
-                image_data = imagefile.read()
-                encoded_image = base64.b64encode(image_data).decode('utf-8')
-                return render_template("createpost.html", encoded_image=encoded_image)
-        return render_template("createpost.html")
-    else:
-        return redirect("/login/")
-    
+   
 @app.route("/account/")
 def account():
-    generate_profile(getPostsOfUser("90c0d8c2-c1d6-47b1-80d6-091d620601ad"))    
+    usrID = authRequired(request)
+    generate_profile(getPostsOfUser(usrID))    
     return render_template("account.html")
 
 @app.route("/registration/")
@@ -83,6 +73,5 @@ def createPost():
     return render_template("createpost.html")
 
 if __name__ == "__main__":
-    app.register_blueprint(api)
     app.register_blueprint(api)
     app.run(port=5000, host='0.0.0.0')                                     
