@@ -7,7 +7,7 @@
         <p class="post_description">{{post['description']}}</p>
         {% include 'userTemplateSmall.html' %}
         <div class="comments-container">
-            <a href="/comment/" class="user_link_big"><p>Klick hier für Kommentare</p></a>
+            <a href="/comment/" class="user_link_big"><p>Klick hier für mehr Kommentare</p></a>
             {% for post in comments%}
             {% include 'userTemplateSmall.html' %} 
             <p>{{post['text']}}</p>
