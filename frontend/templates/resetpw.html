@@ -1,45 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/> 
-    <title>Login</title>
-</head>
-<body>
-    <div class="header">
-        <div class="website-title">
-            <a href="/"><img src="../static\styles\ias-icon.jpg" width="50"></a>
-        <h3>Instagram, aber schlechter.</h3>
-        </div>
-        <div class="header-right">
-            <a href="/login/">Login/Registration</a>
-            <a href="/logout/">Logout</a>
-            <a href="/createpost/">Bild posten</a>
-            <a href="/account/">Mein Account</a>
-        </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="main_container">
+    <div class="login_container">
+        {% if not error == ''%}
+        <p class="login_error">{{error}}</p>
+        {% endif %}
+        <form action="/api/changepassword/" method="post">
+            <!-- Email input -->
+            <div class="">
+                <input type="text" id="form1Example13" name="username" class="user_text" />
+                <label class="user_label" for="form1Example13">Benutzername</label>
+            </div>
+            <!-- Password input -->
+            <div class="">
+                <input type="password" id="form1Example23" name="password" class="user_text" />
+                <label class="user_label" for="form1Example23">Passwort</label>
+            </div>
+
+            <div class="">
+                <input type="password" id="form1Example23" name="newpassword" class="user_text" />
+                <label class="user_label" for="form1Example23">Neues Passwort</label>
+            </div>
+            <!-- Submit button -->
+            <button type="submit" class="user_login_btn">Login</button>
+        </form>
     </div>
-    {% block content %}
-    <div class="container">
-        <div class="ignore">you shouldn't see me</div>
-        <div class="content">
-            <div class="resetpw">
-				<form action="/api/changepassword" method="post">
-					<p>Name:</p>
-					<p><input type="text" name="username" /></p>
-					<p>altes Passwort:</p>
-					<p><input type="text" name="password" /></p>
-                    <p>neues Passwort:</p>
-					<p><input type="text" name="newpassword" /></p>
-					<p><input type="submit" value="Passwort zurücksetzen"/></p>
-				</form>
-                <a href="/registration/">Klick hier zum Registrieren</a>
-			</div>
-        </div>
-    </div>
+</div> 
 {% endblock %}
-    <div class="footer">
-        Copyright &copy; 2023 flac (EF-Projekt)
-    </div>
-</body>
-</html>
