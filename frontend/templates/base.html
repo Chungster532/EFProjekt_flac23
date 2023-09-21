@@ -13,10 +13,12 @@
             <a href="/"><img class="main_img" src="{{ url_for('static',filename='styles/ias-icon.png') }}" width="50"></a>
         <p>Instagram, aber schlechter.</p>
         </div>
-        <form action="/api/search" method="post">
-            <input type="text" name="q" placeholder="">
-            <input type="submit" value="Suchen"/>
-        </form>
+        <div class="searchbar">
+            <form action="/api/search" method="post">
+                <input type="text" name="q">
+                <button type="submit" class="search-btn">Suchen</button>
+            </form>
+        </div>
         <div class="header-right">
             <ul>
                 {%if not loggedin %}
