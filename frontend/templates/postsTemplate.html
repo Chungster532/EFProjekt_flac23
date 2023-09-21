@@ -2,15 +2,22 @@
 <div class="post_container">
     {% for post in posts %}
     <div class="post_card">
-        <img class="post_image" src="{{post['image']}}">
+        <a href="/comment/{{post['id']}}/" class="user_link_big"><img class="post_image" src="{{post['image']}}"></a>
         <h2 class="post_title">{{post['title']}} - {{post['timestamp']}}</h2>
         <p class="post_description">{{post['description']}}</p>
         {% include 'userTemplateSmall.html' %}
         <div class="comments-container">
-            <a href="/comment/" class="user_link_big"><p>Klick hier für mehr Kommentare</p></a>
-            {% for post in comments%}
-            {% include 'userTemplateSmall.html' %} 
-            <p>{{post['text']}}</p>
+            {% if posting %}
+            <form action="/api/{{post['id']}}/comment/" method="post">
+                <div class="">
+                    <input type="text" id="form1Example13" name="text" class="user_text" placeholder="Kommentar..."/>
+                </div>
+                <input type="submit" style="display: none;">
+            </form>
+            {%endif%}
+            {% for comment in comments%}
+            {% include 'userTemplateSmallComment.html' %} 
+            <p>{{comment['text']}}</p>
             {%endfor%}
         </div>
     </div>

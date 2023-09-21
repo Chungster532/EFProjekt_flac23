@@ -7,9 +7,8 @@ def userToDict(id, username, passwordHash, description, image, **args):
 def commentToDict(id, postID, userID, text, creationDate):
     return {'id': id, 'postID':postID, 'userID':userID, 'text':text, 'creationDate':creationDate}
 
-def postToDict(id, userId, title, image, description, timestamp):
-    dtobj = datetime.fromtimestamp(float(timestamp))
-    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(dtobj.strftime('%Y/%m/%d %H:%M'))}
+def postToDict(id, userId, title, image:str, description, timestamp):
+    return {'id': id, 'userId': userId, 'title': title, 'description':description, 'image':image, 'timestamp':datetime.fromtimestamp(float(timestamp)).strftime('%Y/%m/%d %H:%M')}
 
 class DB:
     def __init__(self) -> None:
@@ -29,11 +28,13 @@ class DB:
         self.cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", args)
         self.db.commit()
         return self.get_user_by_name(args[1])
+    
     def add_comment(self, *args) -> dict[str, str]:
-        """Function to add user to the db"""
+        """Function to add comment to the db"""
         self.cur.execute("INSERT INTO comments VALUES(?,?,?,?,?)", args)
         self.db.commit()
-        return self.get_user_by_name(args[1])
+        print('bb', self.cur.execute("""SELECT * FROM comments""").fetchall())
+        return self.get_comment_by_id(args[0])
 
     def get_comment_by_id(self, id:str) -> dict[str, str]:
         """returns a comment with the given id"""
@@ -42,7 +43,7 @@ class DB:
     
     def get_comments_from_post(self, id:str) -> dict[str, str]:
         """returns all comments from post"""
-        return [postToDict(*cmt) if cmt else None for cmt in self.cur.execute("""SELECT * FROM comments WHERE userID=?""", (str(id),)).fetchall()]
+        return [commentToDict(*cmt) if cmt else None for cmt in self.cur.execute("""SELECT * FROM comments WHERE postID=?""", (str(id),)).fetchall()]
 
     def get_post_by_id(self, id:str) -> dict[str, str]:
         """return a list containing all attributes of a post specified b an uuid"""

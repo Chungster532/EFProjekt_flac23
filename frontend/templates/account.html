@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="account_posts_title" style="margin-top: 40px; margin-bottom:3%;">Your Account:</h1>
-{% include 'userTemplateBig.html' %}
-<h1 class="account_posts_title">Your Posts:</h1>
+<div class="account_posts_title_change">
+    <h1> Dein Account:</h1>
+    <h2><a href="/account/" class="user_link_big">
+            <h1>✎</h1>
+        </a>
+    </h2>
+</div>
+{% include 'userTemplateBig.html' %}  
+<h1 class="account_posts_title">Deine Posts:</h1>
 {% include "postsTemplate.html"%}
 {% endblock %}

@@ -8,7 +8,8 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    return render_template("feed.html", posts=addUsersToPosts(getFeed()), comments=[getCommentsFromPost(p['id']) for p in getFeed()])
+    print([getCommentsFromPost(p['id']) for p in getFeed()])
+    return render_template("feed.html", posting=False, posts=addCommentsToPost(addUsersToPosts(getFeed())))
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
@@ -26,7 +27,7 @@ def account():
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("account.html", users=[getUserByID(usrID)], posts=getPostsOfUser(usrID))
+    return render_template("account.html", posting=False, users=[getUserByID(usrID)], posts=getPostsOfUser(usrID))
 
 @app.route('/account/<userID>/')
 def usrAccount(userID):
@@ -36,7 +37,15 @@ def usrAccount(userID):
             return redirect('/account/')
     except:
         pass
-    return render_template("account.html", users=[getUserByID(userID)], posts=getPostsOfUser(userID))
+    return render_template("account.html", posting=False, users=[getUserByID(userID)], posts=getPostsOfUser(userID))
+
+@app.route('/comment/<postID>/')
+def postcomment(postID):
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("postcomment.html", posting=True, users=[usrID], posts=[get_post(postID)])
 
 @app.route("/registration/")
 def registration():
