@@ -40,7 +40,7 @@ class DB:
     
     def get_comments_from_post(self, id:str) -> dict[str, str]:
         """returns all comments from post"""
-        return [postToDict(*cmt) if cmt else None for cmt in self.cur.execute("""SELECT * FROM comments WHERE userID=?""", (str(id),)).fetchall()]
+        return [commentToDict(*cmt) if cmt else None for cmt in self.cur.execute("""SELECT * FROM comments WHERE userID=?""", (str(id),)).fetchall()]
 
     def get_post_by_id(self, id:str) -> dict[str, str]:
         """return a list containing all attributes of a post specified b an uuid"""

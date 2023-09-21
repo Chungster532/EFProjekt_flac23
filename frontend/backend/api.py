@@ -37,10 +37,14 @@ def generateAuthTokenResponse(id:str) -> Response:
 @api.route('/login', methods=["POST"])
 def login():
     usr = request.form
+    if usr['username'] == '' or usr['password']:
+        return {418: "I'm a teapod"}
     userDB = db.get_user_by_name(usr['username'])
+    if userDB is None:
+        return {418: "I'm a teapod"}
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
-        return {418: "I'm a teadpod"}
+        return {418: "I'm a teapod"}
     return generateAuthTokenResponse(userDB['id'])
 
 @api.route('/register', methods=["POST"])
@@ -58,7 +62,7 @@ def register():
 @api.route('/')
 def main():
     try:
-        userToken = authRequired(request)
+        authRequired(request)
     except:
         return redirect('/login/')
     return 'This is the flac API'
@@ -144,6 +148,7 @@ def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
+
 def getCommentsFromPost(id:str):
     return db.get_comments_from_post(id)
   
