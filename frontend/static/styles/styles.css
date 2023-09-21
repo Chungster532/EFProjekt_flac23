@@ -330,3 +330,17 @@ body{
 .comments-container a:hover{
     background-color: var(--green);
 }
+
+.account_posts_title_change {
+
+    display: flex;
+    align-items: center;
+}
+h1, h2 {
+    margin: 20%;
+    margin-top: 3%;
+    margin-bottom: 0%;
+}
+h2 a {
+    text-decoration: none;
+}
