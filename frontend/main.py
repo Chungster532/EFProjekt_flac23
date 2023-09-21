@@ -8,7 +8,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    if 'requests' in request.user_agent:
+    if 'requests' in request.user_agent.string:
         return {418: 'Im a teadpod'}
     try:
         authRequired(request)
