@@ -22,10 +22,17 @@
         </div>
         <div class="header-right">
             <ul>
+                <li>
+                    <form action="/api/search" method="post">
+                        <input type="text" name="q" placeholder="">
+                        <input type="submit" value="Suchen"/>
+                    </form>
+                </li>
                 <li><a href="/login/">Login/Registration</a></li>
                 <li><a href="/logout/">Logout</a></li>
                 <li><a href="/createpost/">Bild posten</a></li>
                 <li><a href="/account/">Mein Account</a></li>
+                
             </ul>
         </div>
     </div>

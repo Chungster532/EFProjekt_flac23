@@ -26,8 +26,19 @@ def account():
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    posts = getPostsOfUser(usrID)
-    return render_template("account.html", users=[getUserByID(usrID)], posts=posts)
+    return render_template("account.html", users=[getUserByID(usrID)], posts=getPostsOfUser(usrID))
+
+@app.route('/account/<userID>/')
+def usrAccount(userID):
+    try:
+        usrID = authRequired(request)
+    except:
+        pass
+    if userID == usrID:
+        return redirect('/account/')
+    return render_template("account.html", users=[getUserByID(userID)], posts=getPostsOfUser(userID))
+
+addUsersToPosts
 
 @app.route("/registration/")
 def registration():
