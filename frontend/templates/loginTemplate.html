@@ -2,6 +2,9 @@
 {% block content %}
 <div class="main_container">
     <div class="login_container">
+        {% if not error == ''%}
+        <p class="login_error">{{error}}</p>
+        {% endif %}
         <form action="/api/login" method="post">
             <!-- Email input -->
             <div class="">
