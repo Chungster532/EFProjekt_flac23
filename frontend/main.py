@@ -37,7 +37,7 @@ def usrAccount(userID):
             return redirect('/account/')
     except:
         pass
-    return render_template("account.html", posting=False, users=[getUserByID(userID)], posts=getPostsOfUser(userID))
+    return render_template("external_account.html", posting=False, users=[getUserByID(userID)], posts=getPostsOfUser(userID))
 
 @app.route('/comment/<postID>/')
 def postcomment(postID):
@@ -58,6 +58,18 @@ def createPost():
 @app.route("/resetpw/")
 def resetpw():
     return render_template("resetpw.html")
+
+@app.route("/editprofile/")
+def editprofile():
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("editprofile.html", users=[usrID])
+
+def resetpw():
+    return render_template("resetpw.html")
+
 
 if __name__ == "__main__":
     app.register_blueprint(api)
