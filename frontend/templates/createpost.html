@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% block content %}
 <div class="main_container">
@@ -10,6 +11,33 @@
             <p><input type="text" name="description" /></p>
             <p><input type="submit" value="veröffentlichen"/></p>
         </form>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/> 
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div class="header">
+        <div class="website-title">
+            <a href="/"><img src="..\static\styles\ias-icon.jpg" width="50"></a>
+            <p>Instagram, aber schlechter.</p>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="/login/">Login/Registration</a></li>
+                <li><a href="/logout/">Logout</a></li>
+                <li><a href="/createpost/">Bild posten</a></li>
+                <li><a href="/account/">Mein Account</a></li>
+                <li><input type="text" placeholder="Search..">
+                    <input type="submit" value="go!"></li>
+            </ul>
+        </div>
+>>>>>>> 03c75a5ff32162c7dc1796b0894f4f794d4bc4ae
     </div>
 </div> 
 {% endblock %}
