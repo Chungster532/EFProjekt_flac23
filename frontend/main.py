@@ -71,7 +71,7 @@ def resetpw():
         authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("resetpw.html", loggedin=True)
+    return render_template("resetpw.html", loggedin=True, error='')
 
 @app.route("/editprofile/")
 def editprofile():

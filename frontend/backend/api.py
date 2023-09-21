@@ -118,10 +118,16 @@ def changePasswordEndpoint():
     except:
         return redirect('/login/')
     usr = request.form
+    if usr['username'] == '':
+        return render_template("resetpw.html", loggedin=True, error='Benutzername kann nicht leer sein')
+    if usr['password'] == '':
+        return render_template("resetpw.html", loggedin=True, error='Password kann nicht leer sein')
+    if usr['password'] == '':
+        return render_template("resetpw.html", loggedin=True, error='Neues Password kann nicht leer sein')
     userDB = db.get_user_by_id(userToken)
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if not passwordHash == userDB['passwordHash']:
-        return {403: "Wrong Password"}
+        return render_template("resetpw.html", loggedin=True, error='Falsches Passwort')
     print("text")
     changePassword(userToken, hashlib.sha512(usr['newpassword'].encode()).hexdigest())
     return redirect('/account/')
