@@ -87,15 +87,16 @@ def make_post():
     except:
         return redirect('/login/')
     imagefile = request.files['image']
-    if not imagefile:
-        raise Exception('')
-    image_data = imagefile.read()
-    encoded_image = base64.b64encode(image_data).decode('utf-8')
-    newPost = db.add_post(str(uuid.uuid4()), userToken, sanitize(request.form['title']), f'data:image/png;base64,{encoded_image}', sanitize(request.form['description']), str(datetime.datetime.now().timestamp()))    
-    print(f'creating post with id: {newPost["id"]}')
-    if newPost is None:
-        raise Exception('Post creation has failed')
-    return redirect('/')
+    if imagefile is None:
+        return render_template('loginTemplate.html', error='Wähle ein Bild aus', loggedin=False)
+    else:
+        image_data = imagefile.read()
+        encoded_image = base64.b64encode(image_data).decode('utf-8')
+        newPost = db.add_post(str(uuid.uuid4()), userToken, sanitize(request.form['title']), f'data:image/png;base64,{encoded_image}', sanitize(request.form['description']), str(datetime.datetime.now().timestamp()))    
+        print(f'creating post with id: {newPost["id"]}')
+        if newPost is None:
+            raise Exception('Post creation has failed')
+        return redirect('/')
 
 @api.route("/search", methods=['POST'])
 def search():
@@ -139,13 +140,15 @@ def changeAccountAttributes():
     except:
         return redirect('/login/')
     encoded_image = getUserByID(userToken)['image']
+    description = request.form.get('description')
+    if description == '':
+        description = getUserByID(userToken)['description']
     if 'imagefile' in request.files:
         imagefile = request.files['imagefile']
-        if not imagefile:
-            raise Exception('')
-        image_data = imagefile.read()
-        encoded_image = base64.b64encode(image_data).decode('utf-8')
-    changeAccountAttributes(userToken, sanitize(request.form['description']), encoded_image)
+        if imagefile:
+            image_data = imagefile.read()
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
+    changeAccountAttributes(userToken, sanitize(description), encoded_image)
     return redirect('/account/')
 
 @api.route('/<postID>/comment/', methods=['POST'])
