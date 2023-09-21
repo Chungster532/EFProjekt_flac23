@@ -61,7 +61,7 @@ body{
     display: inline-block;
 }
 .login_error {
-    background-color: red;
+    background-color: rgb(83, 8, 8);
     padding: 2%;
     margin-bottom: 0px;
     border-radius: 5px;
@@ -294,6 +294,9 @@ body{
     position: relative;
     text-align: center;
     width: 40%;
+}
+.login_container a{
+    text-decoration: none;
 }
 .register-link{
     border-radius: 15px;
