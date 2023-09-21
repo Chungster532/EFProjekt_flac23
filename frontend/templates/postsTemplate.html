@@ -15,7 +15,7 @@
                 <input type="submit" style="display: none;">
             </form>
             {%endif%}
-            {% for comment in comments%}
+            {% for comment in post['comment']%}
             {% include 'userTemplateSmallComment.html' %} 
             <p>{{comment['text']}}</p>
             {%endfor%}

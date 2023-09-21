@@ -80,11 +80,8 @@ class DB:
         self.db.commit()
 
     def changeUser(self, id, username, passwordHash, description, image) -> dict[str, str]:
-        print('cu', passwordHash)
         self.removeUser(id)
-        print(passwordHash)
         self.add_user(id, username, passwordHash, description, image) 
-        print(self.get_user_by_id(id)['passwordHash'])
     
     def searchPosts(self, name:str) -> list[dict[str, str]]:
         """Function to search posts by prompt"""
