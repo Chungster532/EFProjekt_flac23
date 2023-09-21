@@ -1,7 +1,7 @@
 :root{
-    --violet:#4d3d5aeb;
+    --violet:#4d3d5aec;
     --green:#537843;
-    --bg_container: rgb(69, 69, 69);
+    --bg_container: #454545;
 }
 
 *{
@@ -209,15 +209,7 @@ body{
     width: 100%;
     height: 100px;
 }
-.content{
-    padding-top: 30px;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-    background-color: #06060e;
-    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
-}
+
 .login_container {
     width: 60%;
     background-color: rgb(28, 28, 28);
@@ -265,58 +257,4 @@ body{
     color: whitesmoke;
     background-color: var(--violet);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
-}
-.post {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 33px;
-}
-.line{
-    width: 100%;
-    height: 2px;
-    background-color: whitesmoke;
-    margin-bottom: 33px;
-}
-.login{
-    margin-left: auto;
-    margin-right: auto;
-    border-color: whitesmoke;
-}
-.upload{
-    border-radius: 15px;
-    border: 2px solid whitesmoke;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    text-align: center;
-    width: 40%;
-}
-.register-link{
-    border-radius: 15px;
-    margin-top: 5%;
-    background-color: var(--violet);
-    color: whitesmoke;
-    border-radius: 10px;
-    padding-top:    2.2%;
-    padding-bottom: 2.2%;
-    width: 100%;
-    outline: none;
-    border: none;
-    font-size: large;
-    font-weight: bolder;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-}
-.register-link a{
-    text-decoration: none;
-    color: whitesmoke;
-    margin-left: auto;
-    margin-right: auto;
-}
-.upload-pb{
-    margin-top: 15px;
 }
