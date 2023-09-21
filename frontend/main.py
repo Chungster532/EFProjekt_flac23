@@ -12,7 +12,7 @@ def home():
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    return render_template("register.html")
+    return render_template("loginTemplate.html")
     
 @app.route("/logout/")
 def logout():
@@ -32,13 +32,11 @@ def account():
 def usrAccount(userID):
     try:
         usrID = authRequired(request)
+        if userID == usrID:
+            return redirect('/account/')
     except:
         pass
-    if userID == usrID:
-        return redirect('/account/')
     return render_template("account.html", users=[getUserByID(userID)], posts=getPostsOfUser(userID))
-
-addUsersToPosts
 
 @app.route("/registration/")
 def registration():
