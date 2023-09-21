@@ -79,6 +79,7 @@ body{
     width: 60%;
     margin-top: 3%;
     margin-bottom: 0%;
+    box-shadow: 5px -5px 9px 0px rgba(0,0,0,0.3);
 }
 
 .header input[type=text] {
@@ -208,6 +209,7 @@ body{
     padding: 3%;
     padding-top: 0%;
     height: auto;
+    box-shadow: 5px -5px 9px 0px rgba(0,0,0,0.3);
 }
 .main_container {
     width: 100%;
@@ -275,4 +277,30 @@ body{
     position: relative;
     text-align: center;
     width: 40%;
+}
+.register-link{
+    border-radius: 15px;
+    margin-top: 5%;
+    background-color: var(--violet);
+    color: whitesmoke;
+    border-radius: 10px;
+    padding-top:    2.2%;
+    padding-bottom: 2.2%;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: large;
+    font-weight: bolder;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+.register-link a{
+    text-decoration: none;
+    color: whitesmoke;
+    margin-left: auto;
+    margin-right: auto;
+}
+.upload-pb{
+    margin-top: 15px;
 }
