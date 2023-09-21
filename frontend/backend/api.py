@@ -87,7 +87,8 @@ def make_post():
 
 @api.route("/search", methods=['POST'])
 def search():
-    return {'results':{'posts':db.searchPosts(request.form['q'])}}
+    return render_template('search.html', users=db.searchUser(request.form['q']), posts=db.searchPosts(request.form['q']))
+
 
 @api.route("/feed/", methods=['GET'])
 def feed(offset:int=0, numPosts:int=10):
@@ -134,6 +135,12 @@ def addUsersToPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
     for post in posts:
         post.update({'user':db.get_user_by_id(post['userId'])})
     return posts
+
+def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
+    users = []
+    for post in posts:
+        users.append(db.get_user_by_id(post['userId']))
+    return users
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)

@@ -1,7 +1,9 @@
 <div class="user_container_big">
     {% for user in users %}
     <div class="user_card_big">
-        <img class="user_image_big" src="data:image/png;base64,{{ user['image'] }}">
+        <a href="/account/{{ user['id'] }}/" class="user_link_big">
+            <img class="user_image_big" src="data:image/png;base64,{{ user['image'] }}">
+        </a>
         <div class="user_attributes">
             <p class="user_name_big">{{ user['username'] }}</p>
             <p class="user_description_big">{{ user['description'] }}</p>
