@@ -8,12 +8,16 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    print([getCommentsFromPost(p['id']) for p in getFeed()])
-    return render_template("feed.html", posting=False, posts=addCommentsToPost(addUsersToPosts(getFeed())))
+    try:
+        authRequired(request)
+        logged = True
+    except:
+        logged = False
+    return render_template("feed.html", posting=False, posts=addCommentsToPost(addUsersToPosts(getFeed())), loggedin=logged)
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    return render_template("loginTemplate.html")
+    return render_template("loginTemplate.html", loggedin=False)
     
 @app.route("/logout/")
 def logout():
@@ -27,7 +31,7 @@ def account():
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("account.html", posting=False, users=[getUserByID(usrID)], posts=getPostsOfUser(usrID))
+    return render_template("account.html", posting=False, users=[getUserByID(usrID)], posts=getPostsOfUser(usrID), loggedin=True)
 
 @app.route('/account/<userID>/')
 def usrAccount(userID):
@@ -37,7 +41,7 @@ def usrAccount(userID):
             return redirect('/account/')
     except:
         pass
-    return render_template("external_account.html", posting=False, users=[getUserByID(userID)], posts=getPostsOfUser(userID))
+    return render_template("account.html", posting=False, users=[getUserByID(userID)], posts=getPostsOfUser(userID), loggedin=True)
 
 @app.route('/comment/<postID>/')
 def postcomment(postID):
@@ -45,19 +49,27 @@ def postcomment(postID):
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("postcomment.html", posting=True, users=[usrID], posts=[get_post(postID)])
+    return render_template("postcomment.html", posting=True, users=[usrID], posts=[get_post(postID)], loggedin=True)
 
 @app.route("/registration/")
 def registration():
-    return render_template("register.html")
+    return render_template("register.html", loggedin=False)
 
 @app.route("/createpost/")
 def createPost():
-    return render_template("createpost.html")
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("createpost.html", loggedin=True)
 
 @app.route("/resetpw/")
 def resetpw():
-    return render_template("resetpw.html")
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("resetpw.html", loggedin=True)
 
 @app.route("/editprofile/")
 def editprofile():
@@ -68,8 +80,11 @@ def editprofile():
     return render_template("editprofile.html", users=[usrID])
 
 def resetpw():
-    return render_template("resetpw.html")
-
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("resetpw.html", loggedin=True)
 
 if __name__ == "__main__":
     app.register_blueprint(api)

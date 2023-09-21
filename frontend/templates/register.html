@@ -2,7 +2,7 @@
 {% block content %}
 <div class="main_container">
     <div class="login_container">
-        <form action="/api/register" method="post">
+        <form action="/api/register" method="post" enctype="multipart/form-data">
             <!-- Email input -->
             <div class="">
                 <input type="text" id="form1Example13" name="username" class="user_text" />
@@ -20,8 +20,8 @@
             </div>
 
             <div class="upload-pb">
-                <label for="existing-file">Profilbild hochladen:</label>
-                <input type="file" id="existing-file" name="image" accept="image/*">  
+                <label for="image">Profilbild hochladen:</label>
+                <input type="file" id="image" name="image" accept="image/*">  
             </div>  
 
             <!-- Submit button -->

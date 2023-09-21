@@ -19,8 +19,11 @@
         </form>
         <div class="header-right">
             <ul>
+                {%if not loggedin %}
                 <li><a href="/login/">Login/Registration</a></li>
+                {%else%}
                 <li><a href="/logout/">Logout</a></li>
+                {%endif%}
                 <li><a href="/createpost/">Bild posten</a></li>
                 <li><a href="/account/">Mein Account</a></li>
             </ul>

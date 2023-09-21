@@ -42,6 +42,8 @@ def login():
     usr = request.form
     userDB = db.get_user_by_name(usr['username'])
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
+    if userDB is None:
+        {418: "I'm a teadpod"}
     if not passwordHash == userDB['passwordHash']:
         return {418: "I'm a teadpod"}
     return generateAuthTokenResponse(userDB['id'])
@@ -49,9 +51,12 @@ def login():
 @api.route('/register', methods=["POST"])
 def register():
     usr = request.form
+    print(request.files)
     imagefile = request.files['image']
+    print('usr')
     if not imagefile:
         raise Exception('')
+    print(usr)
     image_data = imagefile.read()
     encoded_image = base64.b64encode(image_data).decode('utf-8')
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
@@ -61,7 +66,7 @@ def register():
 @api.route('/')
 def main():
     try:
-        userToken = authRequired(request)
+        authRequired(request)
     except:
         return redirect('/login/')
     return 'This is the flac API'
@@ -77,7 +82,7 @@ def make_post():
         userToken = authRequired(request)
     except:
         return redirect('/login/')
-    imagefile = request.files['imagefile']
+    imagefile = request.files['image']
     if not imagefile:
         raise Exception('')
     image_data = imagefile.read()
@@ -86,11 +91,16 @@ def make_post():
     print(f'creating post with id: {newPost["id"]}')
     if newPost is None:
         raise Exception('Post creation has failed')
-    return {'post': newPost}
+    return redirect('/')
 
 @api.route("/search", methods=['POST'])
 def search():
-    return render_template('search.html', users=db.searchUser(request.form['q']), posts=db.searchPosts(request.form['q']))
+    try:
+        authRequired(request)
+        logged = True
+    except:
+        logged = False
+    return render_template('search.html', users=db.searchUser(request.form['q']), posts=db.searchPosts(request.form['q']), loggedin=logged)
 
 
 @api.route("/feed/", methods=['GET'])
@@ -152,12 +162,13 @@ def addUsersToPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
 
 def addUsersToComments(comments:list[dict[str, str]]) -> list[dict[str, str]]:
     for comment in comments:
-        comment.update({'user':db.get_user_by_id(comment['userId'])})
+        comment.update({'user':db.get_user_by_id(comment['userID'])})
     return comments
 
 def addCommentsToPost(posts:list[dict[str, str]]) -> list[dict[str, str]]:
-    for post in addUsersToComments([getCommentsFromPost(p['id']) for p in posts]):
-        post.update({'comment':db.get_user_by_id(comment['userId'])})
+    comments = [addUsersToComments(getCommentsFromPost(p['id'])) for p in posts]
+    for comment, post in zip(comments, posts):
+        post.update({'comment':comment})
     return posts
 
 def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
