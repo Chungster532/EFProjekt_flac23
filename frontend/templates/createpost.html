@@ -1,53 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/> 
-    <script src="{{url_for('static', filename='script.js')}}"></script>
-    <title>Login</title>
-</head>
-<body>
-    <div class="header">
-        <div class="website-title">
-            <a href="/"><img src="..\static\styles\ias-icon.jpg" width="50"></a>
-        <p>Instagram, aber schlechter.</p>
-        </div>
-        <div class="toggle-btn">
-            <a href="#">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </a>
-        </div>
-        <div class="header-right">
-            <ul>
-                <li><a href="/login/">Login/Registration</a></li>
-                <li><a href="/logout/">Logout</a></li>
-                <li><a href="/createpost/">Bild posten</a></li>
-                <li><a href="/account/">Mein Account</a></li>
-            </ul>
-        </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="main_container">
+    <div class="createpost_container">
+        <form action="/api/post" method="post" enctype="multipart/form-data">
+            <p>Bild:</p>
+            <p><input type="text" name="title" /></p>
+            <p><input type="file" name="imagefile" /></p>
+            <p>Beschreibung:</p>
+            <p><input type="text" name="description" /></p>
+            <p><input type="submit" value="veröffentlichen"/></p>
+        </form>
     </div>
-    {% block content %}
-    <div class="container">
-        <div class="ignore">you shouldn't see me</div>
-        <div class="content">
-            <div class="login">
-				<form action="/api/post" method="post" enctype="multipart/form-data">
-					<p>Bild:</p>
-                    <p><input type="text" name="title" /></p>
-					<p><input type="file" name="imagefile" /></p>
-					<p>Beschreibung:</p>
-					<p><input type="text" name="description" /></p>
-					<p><input type="submit" value="veröffentlichen"/></p>
-				</form>
-			</div>
-        </div>
-    </div>
+</div> 
 {% endblock %}
-    <div class="footer">
-        Copyright &copy; 2023 flac (EF-Projekt)
-    </div>
-</body>
-</html>

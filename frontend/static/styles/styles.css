@@ -1,3 +1,8 @@
+:root{
+    --violet:#67507A;
+    --green:#b8daa8;
+}
+
 *{
     box-sizing: border-box;
 }
@@ -5,11 +10,6 @@ body{
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-}
-.abc {
-    border: 1px solid #ccc;
-    padding: 10px; 
-    margin-bottom: 10px;
 }
 .text {
     color: black;
@@ -20,7 +20,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #67507A;
+    background-color: var(--violet);
     color: whitesmoke;
     position: fixed;
     width: 100%;
@@ -74,11 +74,21 @@ body{
 }
 
 .post_card {
-    background-color: #f0fbeb;
+    background-color: var(--green);
     border-radius: 20px;
     width: 60%;
     margin-top: 3%;
     margin-bottom: 0%;
+}
+
+.header input[type=text] {
+    background-color: var(--green);
+    border-radius: 6px;
+}
+
+.header input[type=submit]{
+    background-color: var(--green);
+    border-radius: 6px;
 }
 
 .post_title {
@@ -125,7 +135,7 @@ body{
 }
 
 .user_card_big {
-    background-color: #f0fbeb;
+    background-color: var(--green);
     border-radius: 20px;
     padding-top: 0%;
     margin-top: 2%;
@@ -177,11 +187,11 @@ body{
 }
 
 .header-right a:hover{
-    background-color: #14141b;
+    background-color: var(--green);
     border-radius: 15px;
 }
 .container{
-    background-color: white;
+    background-color: whitesmoke;
 }
 .ignore{
     width: 100%;
@@ -198,7 +208,7 @@ body{
 }
 .login_container {
     width: 60%;
-    background-color: #f0fbeb;
+    background-color: var(--green);
     padding: 3%;
     padding-top: 0%;
     height: auto;
@@ -214,12 +224,12 @@ body{
     border-radius: 8px;
     width: 100%;
     outline: solid 1px rgb(130, 130, 130);
-    border: solid 3px white;
+    border: solid 3px whitesmoke;
     margin-top: 2.5rem;
 }
 .user_text:focus {
-    outline: solid 1px rgb(0, 166, 255);
-    border: solid 3px rgb(177, 228, 255);
+    outline: solid 1px var(--violet);
+    border: solid 3px var(--violet);
 }
 
 .account_change_options {
@@ -228,7 +238,7 @@ body{
 
 .user_login_btn {
     margin-top: 5%;
-    background-color: rgb(0, 102, 255);
+    background-color: var(--violet);
     color: white;
     border-radius: 10px;
     padding-top:    2.2%;
@@ -243,8 +253,7 @@ body{
 .footer{
     padding: 15px;
     color: whitesmoke;
-    background-color: rgb(10, 10, 10);
-    background-color: rgb(6, 6, 14);
+    background-color: var(--violet);
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
 .post {
