@@ -128,6 +128,16 @@ def changeAccountAttributes():
     changeAccountAttributes(userToken, sanitize(request.form['description']), encoded_image)
     return redirect('/account/')
 
+@api.route('/<postID>/comment/', methods=['POST'])
+def comment(postID):
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    print(request.form)
+    db.add_comment(str(uuid.uuid4()), postID, userToken, request.form['text'], datetime.datetime.now().timestamp())
+    return redirect(f'/comment/{postID}/')
+
 def getUserByID(id: str):
     return db.get_user_by_id(id)
 
@@ -137,6 +147,17 @@ def getFeed(offset:int=0, numPosts:int=10):
 def addUsersToPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
     for post in posts:
         post.update({'user':db.get_user_by_id(post['userId'])})
+    return posts
+
+
+def addUsersToComments(comments:list[dict[str, str]]) -> list[dict[str, str]]:
+    for comment in comments:
+        comment.update({'user':db.get_user_by_id(comment['userId'])})
+    return comments
+
+def addCommentsToPost(posts:list[dict[str, str]]) -> list[dict[str, str]]:
+    for post in addUsersToComments([getCommentsFromPost(p['id']) for p in posts]):
+        post.update({'comment':db.get_user_by_id(comment['userId'])})
     return posts
 
 def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
