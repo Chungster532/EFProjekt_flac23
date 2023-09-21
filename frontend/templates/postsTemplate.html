@@ -6,15 +6,13 @@
         <h2 class="post_title">{{post['title']}} - {{post['timestamp']}}</h2>
         <p class="post_description">{{post['description']}}</p>
         {% include 'userTemplateSmall.html' %}
-    </div>
-    <div>
-        <a href="/comment/{{post['id']}}/" class="user_link_big">
-            <p>Kommentare</p>
-        </a>
-        {% for post in comments%}
-        {% include 'userTemplateSmall.html' %} 
-        <p>{{post['text']}}</p>
-        {%endfor%}
+        <div class="comments-container">
+            <a href="/comment/" class="user_link_big"><p>Klick hier für Kommentare</p></a>
+            {% for post in comments%}
+            {% include 'userTemplateSmall.html' %} 
+            <p>{{post['text']}}</p>
+            {%endfor%}
+        </div>
     </div>
     {% endfor %}
 </div>

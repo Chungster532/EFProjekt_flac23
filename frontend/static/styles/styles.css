@@ -1,7 +1,7 @@
 :root{
-    --violet:#382d41eb;
-    --green:#3f5933;
-    --bg_container: rgb(28, 28, 28);
+    --violet:#4d3d5aeb;
+    --green:#537843;
+    --bg_container: rgb(69, 69, 69);
 }
 
 *{
@@ -11,7 +11,7 @@ body{
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #06060e;
+    background-color: #252525;
     color: whitesmoke;
 }
 .text {
@@ -147,7 +147,7 @@ body{
 }
 
 .user_card_big {
-    background-color: var(--green);
+    background-color: bg;
     border-radius: 20px;
     padding-top: 0%;
     margin-top: 2%;
@@ -319,4 +319,14 @@ body{
 }
 .upload-pb{
     margin-top: 15px;
+}
+.comments-container{
+    margin-left: 3%;
+}
+.comments-container a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+.comments-container a:hover{
+    background-color: var(--green);
 }
