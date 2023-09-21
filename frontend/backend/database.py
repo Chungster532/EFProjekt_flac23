@@ -7,7 +7,7 @@ def commentToDict(id, postID, userID, text, creationDate):
     return {'id': id, 'postID':postID, 'userID':userID, 'text':text, 'creationDate':creationDate}
 
 def postToDict(id, userId, title, image, description, timestamp):
-    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(datetime.datetime.fromtimestamp(timestamp))}
+    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(datetime.datetime.fromtimestamp(float(timestamp)))}
 
 class DB:
     def __init__(self) -> None:
@@ -30,7 +30,6 @@ class DB:
     def add_comment(self, *args) -> dict[str, str]:
         """Function to add user to the db"""
         self.cur.execute("INSERT INTO comments VALUES(?,?,?,?,?)", args)
-        print('\n'.join(list(self.db.iterdump())))
         self.db.commit()
         return self.get_user_by_name(args[1])
 
@@ -71,8 +70,18 @@ class DB:
     
     def searchUser(self, name:str) -> list[dict[str, str]]:
         """Function to search for a user by name"""
-        [userToDict(usr) if usr else None for usr in self.cur.execute("""SELECT * FROM posts WHERE username LIKE ?""", ('%'+name+'%',)).fetchall()]
-        return 
+        return [userToDict(*usr) if usr else None for usr in self.cur.execute("""SELECT * FROM users WHERE username LIKE ?""", ('%'+name+'%',)).fetchall()]
+        
+    def removeUser(self, id:str):
+        self.cur.execute('''DELETE FROM users WHERE id=?''', (id, ))
+        self.db.commit()
+
+    def changeUser(self, id, username, passwordHash, description, image) -> dict[str, str]:
+        print('cu', passwordHash)
+        self.removeUser(id)
+        print(passwordHash)
+        self.add_user(id, username, passwordHash, description, image) 
+        print(self.get_user_by_id(id)['passwordHash'])
     
     def searchPosts(self, name:str) -> list[dict[str, str]]:
         """Function to search posts by prompt"""
