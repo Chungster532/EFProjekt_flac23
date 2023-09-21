@@ -7,6 +7,15 @@
         <p class="post_description">{{post['description']}}</p>
         {% include 'userTemplateSmall.html' %}
     </div>
+    <div>
+        <a href="/comment/" class="user_link_big">
+            <p>Kommentare</p>
+        </a>
+        {% for post in comments%}
+        {% include 'userTemplateSmall.html' %} 
+        <p>{{post['text']}}</p>
+        {%endfor%}
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
