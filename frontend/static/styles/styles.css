@@ -187,7 +187,7 @@ body{
     border-radius: 15px;
 }
 .container{
-    background-color: white;
+    background-color: whitesmoke;
 }
 .ignore{
     width: 100%;
@@ -220,17 +220,17 @@ body{
     border-radius: 8px;
     width: 100%;
     outline: solid 1px rgb(130, 130, 130);
-    border: solid 3px white;
+    border: solid 3px whitesmoke;
     margin-top: 2.5rem;
 }
 .user_text:focus {
-    outline: solid 1px rgb(0, 166, 255);
-    border: solid 3px rgb(177, 228, 255);
+    outline: solid 1px var(--violet);
+    border: solid 3px var(--violet);
 }
 
 .user_login_btn {
     margin-top: 5%;
-    background-color: rgb(0, 102, 255);
+    background-color: var(--violet);
     color: white;
     border-radius: 10px;
     padding-top:    2.2%;
