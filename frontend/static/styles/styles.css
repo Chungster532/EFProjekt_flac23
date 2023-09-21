@@ -7,3 +7,40 @@ body{
     padding: 0;
     color: whitesmoke;
 }
+.ignore{
+    width: 100%;
+    height: 100px;
+}
+.header{
+    background-color:#67507A;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.website-title{
+    display: flex;
+    align-items: center;
+}
+.website-title img{
+    border-radius: 10px;
+    margin-right: 5px;
+}
+.header ul{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+.header ul li{
+    padding: 5px;
+}
+a{
+    text-decoration: none;
+    color: whitesmoke;
+}
+a:hover{
+    color: greenyellow;
+}

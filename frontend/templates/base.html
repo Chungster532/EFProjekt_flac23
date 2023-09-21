@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles_login.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}"/>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <title>IAS</title>
 </head>
@@ -11,20 +11,18 @@
     <div class="header">
         <div class="website-title">
             <a href="/"><img src="..\static\styles\ias-icon.jpg" width="50"></a>
-            <p>Instagram, aber schlechter.</p>
+            <h3>Instagram, aber schlechter.</h3>
         </div>
-        <div class="nav">
-            <ul>
-                <li><a href="/login/">Login/Registration</a></li>
-                <li><a href="/logout/">Logout</a></li>
-                <li><a href="/createpost/">Bild posten</a></li>
-                <li><a href="/account/">Mein Account</a></li>
-                <li><input type="text" placeholder="Search..">
-                    <input type="submit" value="go!"></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="/login/">Login/Registration</a></li>
+            <li><a href="/logout/">Logout</a></li>
+            <li><a href="/createpost/">Bild posten</a></li>
+            <li><a href="/account/">Mein Account</a></li>
+            <li><input type="text" placeholder="Search..">
+                <input type="submit" value="go!"></li>
+        </ul>
     </div>
-    <div class="ignore">you shouldn't see me</div>
+    <div class="ignore"></div>
     {% block content %}
     {% endblock %}
     <div class="footer">
