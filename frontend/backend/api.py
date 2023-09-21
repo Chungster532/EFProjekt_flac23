@@ -144,7 +144,9 @@ def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
 
 def getPostsOfUser(userId:str):
     return db.get_all_user_posts(userId)
-
+def getCommentsFromPost(id:str):
+    return db.get_comments_from_post(id)
+  
 def deleteUser(id:str):
     db.removeUser(id)
 

@@ -32,13 +32,11 @@ def account():
 def usrAccount(userID):
     try:
         usrID = authRequired(request)
+        if userID == usrID:
+            return redirect('/account/')
     except:
         pass
-    if userID == usrID:
-        return redirect('/account/')
     return render_template("account.html", users=[getUserByID(userID)], posts=getPostsOfUser(userID))
-
-addUsersToPosts
 
 @app.route("/registration/")
 def registration():
