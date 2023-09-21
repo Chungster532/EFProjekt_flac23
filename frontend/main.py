@@ -49,7 +49,7 @@ def postcomment(postID):
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("postcomment.html", posting=True, users=[usrID], posts=[get_post(postID)], loggedin=True)
+    return render_template("external_account.html", posting=True, users=[usrID], posts=[get_post(postID)], loggedin=True)
 
 @app.route("/registration/")
 def registration():
@@ -85,6 +85,7 @@ def resetpw():
     except:
         return redirect('/login/')
     return render_template("resetpw.html", loggedin=True)
+
 
 if __name__ == "__main__":
     app.register_blueprint(api)
