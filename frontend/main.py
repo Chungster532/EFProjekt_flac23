@@ -12,7 +12,7 @@ def home():
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    return render_template("login.html")
+    return render_template("loginTemplate.html")
     
 @app.route("/logout/")
 def logout():
