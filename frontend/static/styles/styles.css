@@ -1,7 +1,7 @@
 :root{
-    --violet:#4d3d5aeb;
+    --violet:#4d3d5aec;
     --green:#537843;
-    --bg_container: rgb(69, 69, 69);
+    --bg_container: #454545;
 }
 
 *{
@@ -209,15 +209,7 @@ body{
     width: 100%;
     height: 100px;
 }
-.content{
-    padding-top: 30px;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-    background-color: #06060e;
-    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
-}
+
 .login_container {
     width: 60%;
     background-color: rgb(28, 28, 28);
