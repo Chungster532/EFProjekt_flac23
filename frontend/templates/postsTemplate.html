@@ -8,7 +8,7 @@
         {% include 'userTemplateSmall.html' %}
     </div>
     <div>
-        <a href="/comment/" class="user_link_big">
+        <a href="/comment/{{post['id']}}/" class="user_link_big">
             <p>Kommentare</p>
         </a>
         {% for post in comments%}

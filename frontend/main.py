@@ -38,6 +38,14 @@ def usrAccount(userID):
         pass
     return render_template("account.html", users=[getUserByID(userID)], posts=getPostsOfUser(userID))
 
+@app.route('/comment/<postID>/')
+def postcomment(postID):
+    try:
+        usrID = authRequired(request)
+    except:
+        return redirect('/login/')
+    return render_template("postcomment.html", users=[getUserByID(get_post(postID)['userId'])], posts=[get_post(postID)])
+
 @app.route("/registration/")
 def registration():
     return render_template("register.html")

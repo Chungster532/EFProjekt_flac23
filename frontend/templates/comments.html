@@ -1,0 +1,4 @@
+{% for post in comments%}
+{% include 'userTemplateSmall.html' %} 
+<p>{{post['text']}}</p>
+{%endfor%}
