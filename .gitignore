@@ -10,4 +10,3 @@ frontend/main.py
 frontend/backend/__pycache__/api.cpython-310.pyc
 frontend/__pycache__/database.cpython-310.pyc
 main.py
-some.db
