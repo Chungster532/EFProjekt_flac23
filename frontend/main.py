@@ -8,7 +8,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.route("/")
 def home():
-    return render_template("feed.html", posts=addUsersToPosts(getFeed()), comments=getCommentsFromPost())
+    return render_template("feed.html", posts=addUsersToPosts(getFeed()), comments=[getCommentsFromPost(p['id']) for p in getFeed()])
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
