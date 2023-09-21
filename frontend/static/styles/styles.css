@@ -60,6 +60,12 @@ body{
     text-decoration: none;
     display: inline-block;
 }
+.login_error {
+    background-color: red;
+    padding: 2%;
+    margin-bottom: 0px;
+    border-radius: 5px;
+}
 .post_image {
     border-radius: 20px;
     width: 95%;

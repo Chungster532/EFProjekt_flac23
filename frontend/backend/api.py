@@ -40,12 +40,16 @@ def generateAuthTokenResponse(id:str) -> Response:
 @api.route('/login', methods=["POST"])
 def login():
     usr = request.form
+    if usr['username'] == '':
+        return render_template('loginTemplate.html', error='Username can not be emtpy', loggedin=False)
+    if usr['password'] == '':
+        return render_template('loginTemplate.html', error='Password can not be emtpy', loggedin=False)
     userDB = db.get_user_by_name(usr['username'])
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
     if userDB is None:
-        {418: "I'm a teadpod"}
+        return render_template('loginTemplate.html', error='Username does not exist', loggedin=False)
     if not passwordHash == userDB['passwordHash']:
-        return {418: "I'm a teadpod"}
+        return render_template('loginTemplate.html', error='Password is wrong', loggedin=False)
     return generateAuthTokenResponse(userDB['id'])
 
 @api.route('/register', methods=["POST"])

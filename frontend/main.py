@@ -17,7 +17,7 @@ def home():
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    return render_template("loginTemplate.html", loggedin=False)
+    return render_template("loginTemplate.html", loggedin=False, error='')
     
 @app.route("/logout/")
 def logout():
@@ -31,7 +31,7 @@ def account():
         usrID = authRequired(request)
     except:
         return redirect('/login/')
-    return render_template("account.html", posting=False, users=[getUserByID(usrID)], posts=getPostsOfUser(usrID), loggedin=True)
+    return render_template("account.html", posting=False, users=[getUserByID(usrID)], posts=addCommentsToPost(getPostsOfUser(usrID)), loggedin=True)
 
 @app.route('/account/<userID>/')
 def usrAccount(userID):
@@ -66,7 +66,7 @@ def createPost():
 @app.route("/resetpw/")
 def resetpw():
     try:
-        usrID = authRequired(request)
+        authRequired(request)
     except:
         return redirect('/login/')
     return render_template("resetpw.html", loggedin=True)
