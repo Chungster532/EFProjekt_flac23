@@ -12,6 +12,9 @@ db = DB()
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
+def sanitize(string:str) -> str:
+    return string.replace('ö', 'oe').replace('ü', 'ue').replace('ä', 'ae').replace('à', 'a').replace('è', 'e').replace('é', 'e')
+
 def authRequired(request:Request) -> str:
     print(request.headers)
     if 'Authentication' in request.headers:
@@ -28,7 +31,7 @@ def authRequired(request:Request) -> str:
     return payload['id']
 
 def generateAuthTokenResponse(id:str) -> Response:
-    token = jwt.encode({'id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, secret)
+    token = jwt.encode({'id': id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)}, secret)
     resp = redirect('/')
     resp.set_cookie('Session-Cookie', token)
     resp.headers['Authorization'] = 'Bearer ' + token
@@ -52,7 +55,7 @@ def register():
     image_data = imagefile.read()
     encoded_image = base64.b64encode(image_data).decode('utf-8')
     passwordHash = hashlib.sha512(usr['password'].encode()).hexdigest()
-    dbUser = db.add_user(str(uuid.uuid4()), usr['username'], passwordHash, usr['description'], encoded_image)
+    dbUser = db.add_user(str(uuid.uuid4()), sanitize(usr['username']), passwordHash, sanitize(usr['description']), encoded_image)
     return generateAuthTokenResponse(dbUser['id'])
 
 @api.route('/')
@@ -66,7 +69,7 @@ def main():
 @api.route('/get_post/<postID>/', methods=["GET"])
 def get_post(postID:str):
     print(f'requesting post with id: {postID}')
-    return {'post': db.get_post_by_id(postID)}
+    return db.get_post_by_id(postID)
 
 @api.route("/post", methods=["POST"])
 def make_post():
@@ -79,7 +82,7 @@ def make_post():
         raise Exception('')
     image_data = imagefile.read()
     encoded_image = base64.b64encode(image_data).decode('utf-8')
-    newPost = db.add_post(str(uuid.uuid4()), userToken, request.form['title'], f'data:image/png;base64,{encoded_image}', request.form['description'], str(datetime.datetime.now().timestamp()))    
+    newPost = db.add_post(str(uuid.uuid4()), userToken, sanitize(request.form['title']), f'data:image/png;base64,{encoded_image}', sanitize(request.form['description']), str(datetime.datetime.now().timestamp()))    
     print(f'creating post with id: {newPost["id"]}')
     if newPost is None:
         raise Exception('Post creation has failed')
@@ -122,8 +125,18 @@ def changeAccountAttributes():
             raise Exception('')
         image_data = imagefile.read()
         encoded_image = base64.b64encode(image_data).decode('utf-8')
-    changeAccountAttributes(userToken, request.form['description'], encoded_image)
+    changeAccountAttributes(userToken, sanitize(request.form['description']), encoded_image)
     return redirect('/account/')
+
+@api.route('/<postID>/comment/', methods=['POST'])
+def comment(postID):
+    try:
+        userToken = authRequired(request)
+    except:
+        return redirect('/login/')
+    print(request.form)
+    db.add_comment(str(uuid.uuid4()), postID, userToken, request.form['text'], datetime.datetime.now().timestamp())
+    return redirect(f'/comment/{postID}/')
 
 def getUserByID(id: str):
     return db.get_user_by_id(id)
@@ -134,6 +147,17 @@ def getFeed(offset:int=0, numPosts:int=10):
 def addUsersToPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
     for post in posts:
         post.update({'user':db.get_user_by_id(post['userId'])})
+    return posts
+
+
+def addUsersToComments(comments:list[dict[str, str]]) -> list[dict[str, str]]:
+    for comment in comments:
+        comment.update({'user':db.get_user_by_id(comment['userId'])})
+    return comments
+
+def addCommentsToPost(posts:list[dict[str, str]]) -> list[dict[str, str]]:
+    for post in addUsersToComments([getCommentsFromPost(p['id']) for p in posts]):
+        post.update({'comment':db.get_user_by_id(comment['userId'])})
     return posts
 
 def getUsersFromPosts(posts:list[dict[str, str]]) -> list[dict[str, str]]:
@@ -163,6 +187,6 @@ def changePassword(id:str, passwordHash:str) -> dict[str, str]:
 
 def changeAccountAttributes(id:str, description:str, image:str):
     usr = db.get_user_by_id(id)
-    usr['description'] = description
-    usr['image'] = image
+    usr['description'] = sanitize(description)
+    usr['image'] = sanitize(image)
     db.changeUser(**usr)
