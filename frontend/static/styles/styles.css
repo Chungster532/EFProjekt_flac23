@@ -1,5 +1,5 @@
 :root{
-    --violet:#67507A;
+    --violet:#67507aeb;
     --green:#b8daa8;
 }
 
@@ -71,6 +71,7 @@ body{
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
     color: black;
+    margin-bottom: 15px;
 }
 
 .post_card {
@@ -184,7 +185,7 @@ body{
 }
 
 .header-right a:hover{
-    background-color: var(--green);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 15px;
 }
 .container{
