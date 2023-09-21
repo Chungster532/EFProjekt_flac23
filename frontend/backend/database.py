@@ -1,10 +1,12 @@
-import sqlite3, datetime
+import sqlite3
+from datetime import datetime, timedelta
 
 def userToDict(id, username, passwordHash, description, image, **args):
     return {'id':id, 'username':username, 'passwordHash': passwordHash, 'description':description, 'image':image}
 
 def postToDict(id, userId, title, image, description, timestamp):
-    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(datetime.datetime.fromtimestamp(float(timestamp)))}
+    dtobj = datetime.fromtimestamp(float(timestamp))
+    return {'id': id, 'userId': userId, 'title': title, 'image':image, 'description':description, 'timestamp':str(dtobj.strftime('%Y/%m/%d %H:%M'))}
 
 class DB:
     def __init__(self) -> None:

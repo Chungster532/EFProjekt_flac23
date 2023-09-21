@@ -13,26 +13,16 @@
             <a href="/"><img class="main_img" src="{{ url_for('static',filename='styles/ias-icon.png') }}" width="50"></a>
         <p>Instagram, aber schlechter.</p>
         </div>
-        <div class="toggle-btn">
-            <a href="#">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </a>
-        </div>
+        <form action="/api/search" method="post">
+            <input type="text" name="q" placeholder="">
+            <input type="submit" value="Suchen"/>
+        </form>
         <div class="header-right">
             <ul>
-                <li>
-                    <form action="/api/search" method="post">
-                        <input type="text" name="q" placeholder="">
-                        <input type="submit" value="Suchen"/>
-                    </form>
-                </li>
                 <li><a href="/login/">Login/Registration</a></li>
                 <li><a href="/logout/">Logout</a></li>
                 <li><a href="/createpost/">Bild posten</a></li>
                 <li><a href="/account/">Mein Account</a></li>
-                
             </ul>
         </div>
     </div>
