@@ -20,6 +20,9 @@ body{
     background-color: rgb(6, 6, 14);
 }
 .header{
+    background-color:#67507A;
+    position: fixed;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,32 +34,24 @@ body{
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
 .website-title{
-    font-size: 1.5rem;
-    margin: .5rem;
     display: flex;
     align-items: center;
 }
-.website-title p{
-    margin-left: 15px;
+.website-title img{
+    border-radius: 10px;
+    margin-right: 5px;
 }
-.header-right ul{
-    margin: 0;
-    padding: 0;
+.header ul{
+    margin-top: auto;
+    margin-bottom: auto;
     display: flex;
-}
-.header-right li{
+    justify-content: space-between;
     list-style: none;
 }
-.header-right li a{
-    text-decoration: none;
-    padding: 1rem;
-    display: block;
-}
-.header-right a{
+.header ul li{
     padding: 5px;
-    color: whitesmoke;
-    padding: 14px 25px;
-    text-align: center;
+}
+a{
     text-decoration: none;
     display: inline-block;
 }
