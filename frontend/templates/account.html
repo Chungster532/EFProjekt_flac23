@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Mein Account{% endblock %}
 {% block content %}
-<div class="ignore">you shouldn't see me</div>
-<div class="container">
-    <h1>{{username}}</h1>
-    <p><img src='data:image/png;base64,{{image}}' style="width: 20%; height: 20%"/></p>
-    <p>{{description}}</p>
-    <a href="/resetpw/">Passwort zurücksetzten</a>
-    <h1>Ihre Posts</h1>
-    {% include 'profile.html' %}
+<div class="account_posts_title_change">
+    <h1> Dein Account:</h1>
+    <h2><a href="/editprofile/" class="user_link_big">
+            <h1>✎</h1>
+        </a>
+    </h2>
 </div>
+{% include 'userTemplateBig.html' %}
+<h1 class="account_posts_title">Deine Posts:</h1>
+{% include "postsTemplate.html"%}
 {% endblock %}

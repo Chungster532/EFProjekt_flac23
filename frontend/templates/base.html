@@ -4,23 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}"/>
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
     <title>IAS</title>
 </head>
 <body>
     <div class="header">
         <div class="website-title">
-            <a href="/"><img src="..\static\styles\ias-icon.jpg" width="50"></a>
-            <h3>Instagram, aber schlechter.</h3>
+            <a href="/"><img class="main_img" src="{{ url_for('static',filename='styles/ias-icon.png') }}" width="50"></a>
+        <p>Instagram, aber schlechter.</p>
         </div>
-        <ul>
-            <li><a href="/login/">Login/Registration</a></li>
-            <li><a href="/logout/">Logout</a></li>
-            <li><a href="/createpost/">Bild posten</a></li>
-            <li><a href="/account/">Mein Account</a></li>
-            <li><input type="text" placeholder="Search..">
-                <input type="submit" value="go!"></li>
-        </ul>
+        <div class="searchbar">
+            <form action="/api/search" method="post">
+                <input type="text" name="q">
+                <button type="submit" class="search-btn">Suchen</button>
+            </form>
+        </div>
+        <div class="header-right">
+            <ul>
+                {%if not loggedin %}
+                <li><a href="/login/">Login/Registration</a></li>
+                {%else%}
+                <li><a href="/logout/">Logout</a></li>
+                {%endif%}
+                <li><a href="/createpost/">Bild posten</a></li>
+                <li><a href="/account/">Mein Account</a></li>
+            </ul>
+        </div>
     </div>
     <div class="ignore"></div>
     {% block content %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main_container">
+    <div class="login_container">
+        <h1>Profil bearbeiten</h1>
+        <form action="/api/changeattributes/" method="post" enctype="multipart/form-data">
+            <div class="upload-pb">
+                <label for="existing-file">Neues Profilbild hochladen:</label>
+                <input type="file" id="existing-file" name="imagefile" accept="image/*">
+            </div>  
+            <div class="">
+                <input type="text" name="description" class="user_text" />
+                <label class="user_label" for="form1Example23">Beschreibung</label>
+            </div>
+            <button type="submit" class="user_login_btn">Beschreibung ändern</button>
+            <a href="/resetpw/" class="user_login_btn">
+                <p>Passwort ändern</p>
+            </a>
+        </form>
+    </div>
+</div> 
+
+{% endblock %}
